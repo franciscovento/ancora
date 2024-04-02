@@ -1,0 +1,135 @@
+---
+// import ancoraLogo from '../../assets/img/ancora-logo-2.png';
+import ancoraLogo from '../../assets/img/logo_ancora_2.png';
+import Button from '../atoms/Button.astro';
+import SvgDownLine from '../atoms/icons/SvgDownLine.astro';
+import menuItems from '../../data/menuItems';
+import MobileMenu from '../organisms/MobileMenu';
+import ContactButton from './ContactButton';
+import mexicoFlag from '../../assets/svg/mexico-flag.svg';
+import usaFlag from '../../assets/svg/usa-flag.svg';
+import { getLangFromUrl, useTranslations } from '../../i18n/utils';
+import LangFlags from '../molecules/LangFlags.astro';
+
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
+
+const getCurrenPath = () => {
+  return Astro.url.pathname.replace(`/${lang}`, '');
+};
+---
+
+<header
+  class="fixed top-0 left-1/2 -translate-x-1/2 w-full z-50 py-2 flex items-center justify-center lg:justify-around bg-transparent duration-300"
+>
+  <a href={`/${lang}`}>
+    <span class="block w-[120px] sm:w-[170px]">
+      <img
+        id="logo"
+        class="h-auto duration-300 w-full mx-auto"
+        src={ancoraLogo.src}
+      />
+    </span>
+  </a>
+
+  <nav class="hidden lg:flex items-center gap-14">
+    <ul
+      class="flex items-center gap-7 [&>li]:cursor-pointer [&>li]:text-anc-text [&>li]:text-sm"
+    >
+      {
+        menuItems.map((item) => (
+          <li class="flex items-center gap-2 relative group/parent">
+            {item.link ? (
+              <a
+                class="group-hover/parent:underline underline-offset-8 duration-700 decoration-2 decoration-anc-accent"
+                href={`/${lang}${item.link}`}
+              >
+                {item.name[lang]}{' '}
+              </a>
+            ) : (
+              <span class="group-hover/parent:underline  underline-offset-8 duration-700 decoration-2 decoration-anc-accent">
+                {item.name[lang]}
+              </span>
+            )}
+            {item.submenu && <SvgDownLine />}
+            {item.submenu && (
+              <div class="hidden group-hover/parent:block absolute top-3 left-0 z-40 w-[70px]">
+                <ul class="bg-white min-w-fit flex flex-col whitespace-nowrap mt-4">
+                  {item.submenu?.map((subitem) => (
+                    <li class="flex items-center justify-between hover:bg-[#F2F1ED] min-w-[230px]  group/subitem relative">
+                      {subitem.link ? (
+                        <a
+                          class="py-2 flex-1 px-4 hover:text-anc-accent"
+                          href={`/${lang}${subitem.link}`}
+                        >
+                          {subitem.name[lang]}
+                        </a>
+                      ) : (
+                        <span class="py-2 px-4 hover:text-anc-accent ">
+                          {subitem.name[lang]}
+                        </span>
+                      )}{' '}
+                      {subitem?.submenu && (
+                        <span class="block mr-5">{'>'}</span>
+                      )}
+                      {subitem?.submenu && (
+                        <div class="hidden group-hover/subitem:block absolute top-0 left-[230px] z-40">
+                          <ul class="bg-white min-w-[230px]  whitespace-nowrap ">
+                            {subitem?.submenu?.map((subsubitem) => (
+                              <li class="flex flex-1 hover:bg-[#F2F1ED] py-2 px-4 hover:text-anc-accent">
+                                <a
+                                  class="flex-1"
+                                  href={`/${lang}${subsubitem.link}`}
+                                >
+                                  {subsubitem.name[lang]}
+                                </a>
+                              </li>
+                            ))}
+                          </ul>
+                        </div>
+                      )}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            )}
+          </li>
+        ))
+      }
+    </ul>
+  </nav>
+  <div class="lg:hidden absolute right-5 top-1/2 -translate-y-1/2">
+    <LangFlags displayOne={true} />
+  </div>
+  <div class="hidden lg:flex items-center gap-6">
+    <ContactButton client:load>{t('button.contact')}</ContactButton>
+    <a href="https://ancora-individuales.segupoliza.com/">
+      <Button variant="secondary">Marketplace</Button>
+    </a>
+    <LangFlags />
+  </div>
+
+  <!-- NAV MENU -->
+  <div class="lg:hidden">
+    <MobileMenu client:only="react" />
+  </div>
+</header>
+<script>
+  document.addEventListener('scroll', () => {
+    const header = document.querySelector('header') as HTMLElement;
+    const logo = document.getElementById('logo') as HTMLImageElement;
+    if (window.scrollY > 0) {
+      logo.classList.remove('w-full');
+      logo.classList.add('w-[80%]');
+      header.classList.add('bg-anc-background-light');
+      header.classList.add('shadow-md');
+      header.classList.remove('bg-transparent');
+    } else {
+      logo.classList.remove('w-[80%]');
+      logo.classList.add('w-full');
+      header.classList.add('bg-transparent');
+      header.classList.remove('shadow-md');
+      header.classList.remove('bg-anc-background-light');
+    }
+  });
+</script>

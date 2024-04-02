@@ -1,0 +1,53 @@
+---
+import { getLangFromUrl } from '../../i18n/utils';
+interface Props {
+  name: string;
+  image: string;
+  link: string;
+  short_description: string;
+}
+
+const { name, image, link, short_description } = Astro.props;
+const lang = getLangFromUrl(Astro.url);
+---
+
+<div class="max-w-xs bg-white rounded-[0_30px]">
+  <a href={link}>
+    <h3 class="py-3 px-2 text-center text-2xl text-anc-secondary-light">
+      {name}
+    </h3>
+    <div class="relative group">
+      <img class="w-full object-contain" src={image} alt={name} />
+      <div
+        class="product-overlay bg-[rgba(65,_9,_17,_0.80)] w-full h-full absolute top-0 left-0 rounded-[0_30px] text-white p-8 opacity-0 group-hover:opacity-100 transition-all duration-500 ease-in-out"
+      >
+        <p class="text-white pb-4 text-sm">
+          {short_description}
+        </p>
+        <span class="text-sm"
+          >{lang === 'en' ? 'Learn more' : 'Conocer más'} {'>'}</span
+        >
+      </div>
+    </div>
+  </a>
+</div>
+<script>
+  const overlays = document.getElementsByClassName('product-overlay');
+  function showOverlay() {
+    const windowWidth = window.innerWidth;
+    for (let i = 0; i < overlays.length; i++) {
+      const item = overlays[i];
+      if (
+        item.getBoundingClientRect().top < 300 &&
+        item.getBoundingClientRect().top > 0 &&
+        windowWidth < 768
+      ) {
+        item.classList.add('opacity-100');
+      } else {
+        item.classList.remove('opacity-100');
+      }
+    }
+  }
+
+  document.addEventListener('scroll', showOverlay);
+</script>

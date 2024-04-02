@@ -1,0 +1,30 @@
+---
+import lanternImage from '../../../assets/img/backgrounds/lantern.png';
+import mapImage from '../../../assets/img/backgrounds/map.png';
+import Separator from '../../atoms/Separator.astro';
+import MultiNationalPrograms from './MultiNationalPrograms.astro';
+import WhyAncora from './WhyAncora.astro';
+---
+
+<div class="relative web-banner overflow-hidden">
+  <div class="flex justify-between absolute h-full w-full -z-10">
+    <img
+      class="absolute bottom-[300px] right-[calc(50%_-_700px)] translate-x-1/2"
+      src={lanternImage.src}
+      alt=""
+    />
+    <img
+      class="absolute -z-10 -bottom-52 left-[calc(50%_-_700px)] -translate-x-1/2"
+      src={mapImage.src}
+      alt=""
+    />
+  </div>
+  <div class="web-container">
+    <Separator />
+    <WhyAncora />
+    <!-- Multinational programs -->
+    <Separator />
+    <MultiNationalPrograms />
+  </div>
+  <Separator />
+</div>

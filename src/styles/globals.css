@@ -1,0 +1,48 @@
+@import url('fonts');
+@tailwind components;
+@tailwind base;
+
+@layer base {
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    @apply font-serif;
+  }
+  p {
+    @apply text-anc-text font-sans text-base;
+  }
+}
+
+@layer components {
+  .title-1 {
+    @apply text-4xl sm:text-5xl;
+  }
+  .title-2 {
+    @apply text-3xl sm:text-4xl;
+  }
+
+  .web-container {
+    @apply max-w-6xl mx-auto px-8;
+  }
+  .web-banner {
+    @apply w-screen m-auto relative left-[calc(-50vw_+_50%)];
+  }
+}
+
+.no-arrow {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+}
+.no-arrow::-ms-expand {
+  display: none;
+}
+.btn-send-form:disabled {
+  background-color: #854a53;
+}
+
+.product-slider .swiper-wrapper .swiper-slide {
+  width: fit-content !important;
+}

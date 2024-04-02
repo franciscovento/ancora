@@ -1,0 +1,148 @@
+---
+import en from '../../../data/locales/home/en/index';
+import es from '../../../data/locales/home/es/index';
+import Button from '../../atoms/Button.astro';
+import Input from '../../atoms/Input.astro';
+import ContactButton from '../../organisms/ContactButton';
+import contactImage from '../../../assets/img/shared/contact-home.png';
+// const selectOptions = [
+//   'Selecciona alguna opción...',
+//   '> Affinity',
+//   '> Agrícola y Ganadero',
+//   '> Autos y Equipo Pesado',
+//   '> Aviación y Espacio',
+//   '> Beneficios para Empleados',
+//   '> Cyber ',
+//   '> Energy y R. Naturales',
+//   '> Fianzas y Garantías',
+//   '> Líneas Financieras',
+//   '> Obra Civil y Montaje',
+//   '> Marine & Carga',
+//   '> Programas Multinacionales',
+//   '> Property & Casualty',
+//   '> Seguro de Crédito',
+//   '> Seguros Individuales',
+//   '> Otro...',
+// ];
+
+import { getLangFromUrl, useTranslations } from '../../../i18n/utils';
+
+const lang = getLangFromUrl(Astro.url);
+const t = lang == 'en' ? en : es;
+const uit = useTranslations(lang);
+---
+
+<div class="web-banner lg:bg-anc-background-light">
+  <section
+    class="grid grid-cols-[5fr_5fr] max-w-6xl mx-auto gap-10 min-h-[406px] px-2 lg:px-0 lg:bg-white"
+  >
+    <div
+      style={`background-image: url(${contactImage.src})`}
+      class="rounded-tr-[30px] bg-no-repeat bg-cover bg-[20%] flex flex-col justify-between items-center lg:items-end lg:justify-start p-10 py-14 col-span-2 lg:col-span-1 gap-4"
+    >
+      <div class="w-[min(335px,_100%)] flex flex-col gap-2">
+        <h3
+          class="hidden lg:block text-anc-primary text-sm font-semibold uppercase"
+        >
+          {t.contact.headline}
+        </h3>
+        <span class="text-3xl lg:text-4xl font-serif">{t.contact.title}</span>
+
+        <p class="mt-4">
+          {t.contact.description}
+        </p>
+      </div>
+      <div class="block lg:hidden">
+        <ContactButton client:load>{uit('button.contact')}</ContactButton>
+      </div>
+    </div>
+    <div class="py-10 hidden lg:block">
+      <form id="contact-form" class="max-w-[435px] grid gap-3 grid-cols-2">
+        <label class="grid gap-2 col-span-2">
+          <span>{t.contact.form.select.name}</span>
+          <select
+            id="service-option"
+            class="border bg-transparent border-[#CDCDCD] no-arrow p-2 px-4 text-sm rounded-full focus:border-anc-primary outline-none transition-colors w-full text-anc-text-light italic font-light"
+            required
+          >
+            {
+              t.contact.form.select.options.map((option) => (
+                <option class="font-light not-italic">{option}</option>
+              ))
+            }
+          </select>
+        </label>
+        <Input labelText={t.contact.form.message}>
+          <textarea
+            id="description"
+            class="border bg-transparent border-[#CDCDCD] no-arrow p-2 px-4 text-sm rounded-2xl focus:border-anc-primary outline-none transition-colors w-full text-anc-text-light italic font-light resize-none"
+            placeholder={t.contact.form.placeHolder}
+            rows="3"></textarea>
+        </Input>
+
+        <Input
+          id="name"
+          placeholder={t.contact.form.placeHolder}
+          labelText={`${t.contact.form.name}*`}
+          required
+        />
+
+        <Input
+          id="email"
+          placeholder={t.contact.form.placeHolder}
+          labelText={`${t.contact.form.email}*`}
+          type="email"
+          required
+        />
+
+        <div class="col-span-2">
+          <span>*{`${t.contact.form.mandatory}*`}</span>
+        </div>
+
+        <Button id="btn-contact-form" size="lg" class="btn-send-form">
+          {t.contact.form.submit}
+        </Button>
+      </form>
+    </div>
+  </section>
+</div>
+<script
+  src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.2/sweetalert.min.js"
+  integrity="sha512-AA1Bzp5Q0K1KanKKmvN/4d3IRKVlv9PYgwFPvm32nPO6QS8yH1HO7LbgB1pgiOxPtfeg5zEn2ba64MUcqJx6CA=="
+  crossorigin="anonymous"
+  referrerpolicy="no-referrer"></script>
+<script>
+  const contactForm = document.getElementById(
+    'contact-form'
+  ) as HTMLFormElement;
+  contactForm.addEventListener('submit', (evt) => {
+    evt.preventDefault();
+    sendContactEmail();
+  });
+
+  async function sendContactEmail() {
+    const btnContactForm = document.getElementById(
+      'btn-contact-form'
+    ) as HTMLButtonElement;
+    btnContactForm.disabled = true;
+    const data = getFormData();
+    console.log(data);
+
+    //call to the Netlify Function you created
+    await fetch(`/.netlify/functions/triggerContactEmail`, {
+      method: 'POST',
+      body: JSON.stringify(data),
+    });
+    contactForm.reset();
+    swal('¡Hemos enviado tus datos de contacto!');
+    btnContactForm.disabled = false;
+  }
+  function getFormData() {
+    return {
+      service_option: document.getElementById('service-option').value,
+      description: document.getElementById('description').value,
+      name: document.getElementById('name').value,
+      email: document.getElementById('email').value,
+    };
+  }
+</script>

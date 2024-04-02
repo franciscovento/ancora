@@ -1,0 +1,71 @@
+---
+import es from '../../../data/locales/products/es/agricola-y-ganadero';
+import en from '../../../data/locales/products/en/agricola-y-ganadero';
+import ProductLayout from '../../../layouts/ProductLayout.astro';
+import Separator from '../../../components/atoms/Separator.astro';
+import Title from '../../../components/atoms/Title.astro';
+import ProductCardDescription from '../../../components/molecules/ProductDescriptionCard.astro';
+import SimpleCard from '../../../components/molecules/SimpleCard.astro';
+import agricolaImg from '../../../assets/img/products/agricola-y-ganaderia.png';
+
+export function getStaticPaths() {
+  return [{ params: { lang: 'en' } }, { params: { lang: 'es' } }];
+}
+
+const { lang } = Astro.params;
+
+const t = lang === 'en' ? en : es;
+---
+
+<ProductLayout
+  title={t.title}
+  description={t.short_description}
+  name={t.title}
+  image={agricolaImg.src}
+  color="#19942C"
+  executivesContact={t.executivesContact}
+>
+  <Separator size="md" />
+  <p class="text-center pb-5 text-base">
+    {t.description}
+  </p>
+
+  <Title barPosition="center" class={'text-center text-3xl sm:text-4xl pt-12'}>
+    {t.insurance_types.title}
+  </Title>
+  <Separator size="sm" />
+  <div class="flex flex-col gap-8">
+    {
+      t.insurance_types.items.map((item) => (
+        <ProductCardDescription
+          title={item.title}
+          headline={item?.headline}
+          image={item.image}
+        >
+          <div set:html={item.description} />
+        </ProductCardDescription>
+      ))
+    }
+  </div>
+  <Separator size="md" />
+  <Title class={'text-center'} barPosition="center">
+    {t.insurable_risks.title}
+  </Title>
+  <p class="pt-8 pb-12">
+    {t.insurable_risks.description}
+  </p>
+  <div class="grid sm:grid-cols-2 gap-8">
+    {
+      t.insurable_risks.items.map((item) => (
+        <SimpleCard title={item.title} headline={item.headline}>
+          <ul class="list-outside list-disc ml-5 text-sm">
+            {item.list.map((subItem) => (
+              <li>{subItem}</li>
+            ))}
+          </ul>
+        </SimpleCard>
+      ))
+    }
+  </div>
+  <Separator size="sm" />
+</ProductLayout>

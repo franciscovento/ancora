@@ -1,0 +1,54 @@
+---
+import { getLangFromUrl, useTranslations } from '../../i18n/utils';
+import type ExecutiveContact from '../../utils/interfaces/ExcecutiveContact.interface';
+import ExecutiveContactCard from '../atoms/ExecutiveContactCard.astro';
+import Separator from '../atoms/Separator.astro';
+import ContactButton from './ContactButton';
+
+interface Props {
+  executivesContact: ExecutiveContact[];
+}
+
+const { executivesContact } = Astro.props;
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
+---
+
+<div class="web-banner">
+  <div
+    class="py-12 flex flex-col items-center justify-center text-center gap-4 px-4"
+  >
+    <h4 class="text-[32px] text-anc-primary font-medium">
+      {t('product.footer.title')}
+    </h4>
+    <p class="text-xl text-anc-primary pb-4">
+      {t('product.footer.description')}
+    </p>
+    <ContactButton client:load>{t('button.contact')}</ContactButton>
+  </div>
+  <div
+    class="bg-anc-primary sm:rounded-[0_77px_0_0] sm:-translate-x-[4%] min-h-48 py-12"
+  >
+    <div
+      class="flex flex-col gap-4 h-full sm:translate-x-[4%] px-4 text-center items-center justify-center text-white"
+    >
+      <p class="text-white text-xl">
+        {t('product.footer.label')}
+      </p>
+      <div class="flex gap-4 flex-wrap -mb-28 items-center justify-center">
+        {
+          executivesContact.map((executive) => (
+            <ExecutiveContactCard
+              name={executive.name}
+              email={executive.email}
+              phone={executive.number}
+              position={executive.job}
+              icon={executive.icon}
+            />
+          ))
+        }
+      </div>
+    </div>
+  </div>
+  <Separator />
+</div>

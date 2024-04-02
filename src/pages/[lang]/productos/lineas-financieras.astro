@@ -1,0 +1,71 @@
+---
+import es from '../../../data/locales/products/es/lineas-financieras';
+import en from '../../../data/locales/products/en/lineas-financieras';
+import ProductLayout from '../../../layouts/ProductLayout.astro';
+import lineasFinancierasImg from '../../../assets/img/products/lineas-financieras.png';
+import Separator from '../../../components/atoms/Separator.astro';
+import Title from '../../../components/atoms/Title.astro';
+import DetailedImageCard from '../../../components/molecules/DetailedImageCard.astro';
+import ReadMore from '../../../components/atoms/ReadMore';
+
+export function getStaticPaths() {
+  return [{ params: { lang: 'en' } }, { params: { lang: 'es' } }];
+}
+const { lang } = Astro.params;
+
+const t = lang === 'en' ? en : es;
+---
+
+<ProductLayout
+  title={t.title}
+  description={t.short_description}
+  name={t.title}
+  image={lineasFinancierasImg.src}
+  color="#209DB9"
+  executivesContact={t.executivesContact}
+>
+  <Separator size="md" />
+  <Title barPosition="center" class={'text-center'}>
+    {t.proposal_value.title}
+  </Title>
+  <p class="py-12" set:html={t.proposal_value.description} />
+  <div
+    class="bg-white rounded-[30px] px-8 sm:px-12 py-12 text-sm flex flex-col gap-4"
+  >
+    {
+      t.proposal_value.items.map((attr) => (
+        <div class="flex flex-col sm:flex-row items-start gap-4">
+          <div class="flex gap-2 w-full sm:w-1/4">
+            <img src="/svg/check.svg" alt="check icon" />
+            <span class="uppercase font-bold text-anc-secondary sm:max-w-[137px]">
+              {attr.title}
+            </span>
+          </div>
+          <span class="w-full sm:w-3/4">{attr.description}</span>
+        </div>
+      ))
+    }
+  </div>
+  <Separator size="md" />
+  <Title barPosition="center" class={'text-center'}>{t.productos.title}</Title>
+  <div class="py-12">
+    <p>
+      {t.productos.description}
+    </p>
+    <div class="pt-20 flex flex-col gap-20">
+      {
+        t.productos.items.map((item) => (
+          <DetailedImageCard title={item.title} image={item.image}>
+            <ReadMore
+              client:load
+              textClose={lang === 'en' ? 'Show more' : 'Leer más'}
+              textOpen={lang === 'en' ? 'See less' : 'Leer menos'}
+            >
+              <p set:html={item.description} />
+            </ReadMore>
+          </DetailedImageCard>
+        ))
+      }
+    </div>
+  </div>
+</ProductLayout>

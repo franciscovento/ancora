@@ -1,0 +1,122 @@
+---
+import Button from "../../atoms/Button.astro";
+import Input from "../../atoms/Input.astro";
+import es from '../../../data/locales/us/es/trabaja-con-nosotros'
+import en from "../../../data/locales/us/en/trabaja-con-nosotros";
+
+export function getStaticPaths() {
+  return [{ params: { lang: 'en' } }, { params: { lang: 'es' } }];
+  }
+const { lang } = Astro.params;
+const t = lang === 'en' ? en : es;
+
+---
+<div class="sm:w-4/5 md:w-3/5 mx-auto bg-white py-10 px-10 sm:px-20 rounded-xl">
+  <form id="job-form" class="max-w-[435px] grid gap-3 grid-cols-2" enctype="multipart/form-data">
+    <Input
+        id="name"
+        placeholder={t.form.placeholder}
+        labelText={t.form.name}
+        required
+    />
+    <Input
+        id="email"
+        placeholder={t.form.placeholder}
+        labelText={t.form.email}
+        type="email"
+        required
+    />
+    <Input id="phone" placeholder={t.form.placeholder} labelText={t.form.phone} type="tel" />
+    <Input id="city" placeholder={t.form.placeholder} labelText={t.form.city} cols={1} />
+    <Input id="country" placeholder={t.form.placeholder} labelText={t.form.country} cols={1} />
+    <label class="grid gap-2 col-span-2">
+      <span>{t.form.area}</span>
+      <select
+          id="area"
+          class="border bg-transparent border-[#CDCDCD] no-arrow p-2 px-4 text-sm rounded-full focus:border-anc-primary outline-none transition-colors w-full text-anc-text-light italic font-light"
+      >
+        {
+          t.form.selectOptions.map((option) => (
+              <option class="font-light not-italic">{option}</option>
+          ))
+        }
+      </select>
+    </label>
+    <!--<Input placeholder="Adjunta aquí" labelText="Adjunta tu CV" cols={1} type="file" />-->
+    <div cols={1}>
+      <span class="mb-2 block">{t.form.cv}</span>
+      <input id="cv" type="file" required>
+    </div>
+    <Input  labelText={t.form.message}>
+      <textarea
+        id="message"
+        class="border bg-transparent border-[#CDCDCD] no-arrow p-2 px-4 text-sm rounded-2xl focus:border-anc-primary outline-none transition-colors w-full text-anc-text-light italic font-light resize-none"
+        placeholder={t.form.placeholder}
+        rows="3"></textarea>
+    </Input>
+
+    <div class="col-span-2">
+      <span>*{t.form.required}</span>
+    </div>
+
+    <Button id="btn-job-form" size="lg" class="btn-send-form">{t.form.send}</Button>
+  </form>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.2/sweetalert.min.js" integrity="sha512-AA1Bzp5Q0K1KanKKmvN/4d3IRKVlv9PYgwFPvm32nPO6QS8yH1HO7LbgB1pgiOxPtfeg5zEn2ba64MUcqJx6CA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script>
+  import { getLangFromUrl } from '../../../i18n/utils';
+  import es from '../../../data/locales/us/es/trabaja-con-nosotros'
+  import en from "../../../data/locales/us/en/trabaja-con-nosotros";
+
+  const currentUrl = new URL(window.location.href);
+  const lang = getLangFromUrl(currentUrl);
+  const t = lang === 'en' ? en : es;
+
+  const jobForm = document.getElementById('job-form');
+  jobForm.addEventListener('submit', (evt) => {
+    evt.preventDefault();
+    sendJobApplicationEmail();
+  });
+
+  async function sendJobApplicationEmail() {
+    const btnJobForm = document.getElementById('btn-job-form');
+    btnJobForm.disabled = true;
+    const data = await getFormData();
+    //call to the Netlify Function you created
+    await fetch(`/.netlify/functions/triggerJobEmail`, {
+      method: "POST",
+      body: JSON.stringify(data)
+    });
+    jobForm.reset();
+    swal(t.formSent);
+    btnJobForm.disabled = false;
+  }
+
+  async function getFormData() {
+    const fileBase64 = await getBase64(document.getElementById('cv').files[0]);
+    return {
+      name: document.getElementById('name').value,
+      email: document.getElementById('email').value,
+      phone: document.getElementById('phone').value,
+      city: document.getElementById('city').value,
+      country: document.getElementById('country').value,
+      area: document.getElementById('area').value,
+      cv: fileBase64,
+      message: document.getElementById('message').value,
+    };
+  }
+
+  function getBase64(file) {
+    return new Promise((resolve, reject) => {
+      let reader = new FileReader();
+      reader.readAsDataURL(file);
+      reader.onload = function () {
+        const result = reader.result.split(',')[1]; // remove data:image/pdf;base64
+        resolve(result);
+      };
+      reader.onerror = function (error) {
+        reject(error);
+      };
+    });
+  }
+</script>

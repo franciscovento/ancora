@@ -1,0 +1,98 @@
+---
+import en from "../../data/locales/us/en/responsabilidad-social";
+import es from "../../data/locales/us/es/responsabilidad-social";
+import ResponsabilidadSocialCard from "./ResponsabilidadSocialCard.astro";
+// import schools from '../../data/schools';
+// import socials from '../../data/social';
+import lanternImage from "../../assets/img/backgrounds/lantern.png";
+export function getStaticPaths() {
+  return [{ params: { lang: 'en' } }, { params: { lang: 'es' } }];
+  }
+
+const { lang } = Astro.params;
+const t = lang === 'en' ? en : es;
+
+---
+
+<div id="tabs" class="relative">
+  <img
+      class="w-2/2 top-32 absolute md:right-[calc(50%_-_500px)] translate-x-1/2"
+      src={lanternImage.src}
+      alt=""
+  />
+  <ul id="menu" class="border-b-1 border-anc-secondary flex justify-center">
+    <li data-target="education" class="active menu-item inline-block px-8 rounded-t-md bg-anc-background-dark text-white text-sm cursor-pointer">
+      { t.tabs.education }
+    </li>
+    <li data-target="social" class="menu-item inline-block px-8 rounded-t-md bg-anc-secondary-light text-white ml-4 text-sm cursor-pointer">
+      { t.tabs.social }
+    </li>
+  </ul>
+  <div id="education" class="content-item active pt-10">
+    {
+      t.section3.schools.map((school) => (
+        <div class="pb-4">
+          <ResponsabilidadSocialCard
+            name={school.name}
+            description={school.description}
+            img={school.img}
+          />
+        </div>
+      ))
+    }
+  </div>
+  <div id="social" class="content-item hidden pt-10">
+    {
+      t.section3.socials.map((social) => (
+          <div class="pb-4">
+            <ResponsabilidadSocialCard
+                name={social.name}
+                description={social.description}
+                img={social.img}
+            />
+          </div>
+      ))
+    }
+  </div>
+</div>
+<style>
+    .border-b-1 {
+        border-bottom: solid 1px;
+    }
+</style>
+<script>
+  const menuItems = document.getElementById('tabs').querySelectorAll('.menu-item');
+  menuItems.forEach((item) => {
+    item.addEventListener('click', (event) => {
+
+      const tab = event.target;
+      updateActiveTab(tab);
+
+      const contentContainerId = tab.getAttribute('data-target');
+      activeTabContent(contentContainerId);
+    })
+  });
+
+  function updateActiveTab(newActiveElement) {
+    const tabsContainer = document.getElementById('tabs');
+    const currentActive = tabsContainer.querySelector('.menu-item.active')
+
+    currentActive.classList.remove('bg-anc-background-dark', 'active');
+    currentActive.classList.add('bg-anc-secondary-light');
+
+    newActiveElement.classList.remove('bg-anc-secondary-light');
+    newActiveElement.classList.add('bg-anc-background-dark');
+    newActiveElement.classList.add('active');
+  }
+  function activeTabContent(contentContainerId) {
+    const tabsContainer = document.getElementById('tabs');
+    const contentContainer = tabsContainer.querySelector(`#${contentContainerId}`);
+    const currentActive = tabsContainer.querySelector('.content-item.active')
+
+    currentActive.classList.add('hidden');
+    currentActive.classList.remove('active');
+
+    contentContainer.classList.add('active');
+    contentContainer.classList.remove('hidden');
+  }
+</script>

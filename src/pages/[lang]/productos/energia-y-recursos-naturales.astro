@@ -1,0 +1,65 @@
+---
+import es from '../../../data/locales/products/es/energia-y-recursos-naturales';
+import en from '../../../data/locales/products/en/energia-y-recursos-naturales';
+import ProductLayout from '../../../layouts/ProductLayout.astro';
+import energyImg from '../../../assets/img/products/energy.png';
+import Separator from '../../../components/atoms/Separator.astro';
+import IconText from '../../../components/atoms/IconText.astro';
+import manImg from '../../../assets/img/shared/man-teaching.png';
+import Title from '../../../components/atoms/Title.astro';
+import type ExecutiveContact from '../../../utils/interfaces/ExcecutiveContact.interface';
+export function getStaticPaths() {
+  return [{ params: { lang: 'en' } }, { params: { lang: 'es' } }];
+}
+const { lang } = Astro.params;
+
+const t = lang === 'en' ? en : es;
+---
+
+<ProductLayout
+  title={t.title}
+  description={t.short_description}
+  name={t.title}
+  image={energyImg.src}
+  color="#BED7E5"
+  executivesContact={t.executivesContact as ExecutiveContact[]}
+>
+  <Separator size="md" />
+  <div class="flex flex-col gap-4">
+    <p set:html={t.description} />
+  </div>
+  <div class="my-12 border border-anc-primary rounded-3xl p-12">
+    <div class="grid gap-8 sm:grid-cols-3 whitespace-pre-line items-baseline">
+      {t.itemsTop.map((item) => <IconText text={item.name} icon={item.icon} />)}
+    </div>
+    <div class="border border-anc-secondary-light mt-12"></div>
+    <p
+      class="text-anc-secondary-light pt-4 pb-12 uppercase text-center text-xl font-semibold"
+    >
+      Oil & Gas
+    </p>
+    <div class="grid gap-8 sm:grid-cols-3 whitespace-pre-line items-baseline">
+      {
+        t.itemsBottom.map((item) => (
+          <IconText text={item.name} icon={item.icon} />
+        ))
+      }
+    </div>
+  </div>
+  <div class="grid sm:grid-cols-2 items-center gap-8 py-12">
+    <img src={manImg.src} alt="" />
+    <div class="flex flex-col gap-4">
+      <Title
+        class={'!font-sans uppercase font-bold text-lg !text-anc-secondary-light'}
+      >
+        {t.section.title}
+      </Title>
+      <div>
+        <p class="pb-2" set:html={t.section.description} />
+        <ul class="list-outside ml-5 text-sm text-anc-text list-disc">
+          {t.section.list.map((item) => <li>{item}</li>)}
+        </ul>
+      </div>
+    </div>
+  </div>
+</ProductLayout>

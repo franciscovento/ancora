@@ -1,0 +1,29 @@
+---
+import Layout from './Layout.astro';
+import AboutUsHero from '../components/organisms/AboutUsHero.astro';
+
+interface Props {
+  title?: string;
+  description: string;
+  image?: string;
+}
+
+const {
+  title = 'Ancora | Nosotros',
+  description,
+  image,
+} = Astro.props;
+---
+
+<Layout title={title}>
+  <AboutUsHero
+      name={title}
+      description={description}
+      image={image}
+  />
+  <div class="web-banner overflow-hidden">
+    <div class="web-container">
+      <slot />
+    </div>
+  </div>
+</Layout>

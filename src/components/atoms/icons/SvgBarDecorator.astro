@@ -1,0 +1,17 @@
+---
+interface Props {
+  color: string;
+  width?: number;
+  height?: number;
+  className?: string;
+  rotate?: "right" | "left";
+}
+
+const { color, className = '', width = 60, height = 270, rotate = "left" } = Astro.props;
+---
+
+<div
+  style={`width: ${width}px; height: ${height}px; background-color: ${color}`}
+  class:list={[className, { 'rounded-full  inline-block': true }, { "-rotate-45" : rotate === 'left', "rotate-45" : rotate === 'right'}]}
+>
+</div>

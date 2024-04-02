@@ -1,0 +1,22 @@
+---
+import Title from '../atoms/Title.astro';
+
+interface Props {
+  title: string;
+  headline?: string;
+  variant?: 'primary' | 'secondary';
+}
+
+const { title, headline, variant = 'primary' } = Astro.props;
+---
+
+<div
+  class:list={[
+    { 'border-anc-primary': variant === 'primary' },
+    { 'border-anc-secondary': variant === 'secondary' },
+  ]}
+  class="border rounded-[30px] py-9 px-5 flex flex-col gap-4"
+>
+  <Title variant={variant} headline={headline}>{title}</Title>
+  <slot />
+</div>

@@ -1,0 +1,36 @@
+---
+import es from '../../../data/locales/products/es/seguros-individuales';
+import en from '../../../data/locales/products/en/seguros-individuales';
+import seguroIndividualImg from '../../../assets/img/products/seguros-individuales.png';
+import ProductLayout from '../../../layouts/ProductLayout.astro';
+import Separator from '../../../components/atoms/Separator.astro';
+import ProductDescriptionCard from '../../../components/molecules/ProductDescriptionCard.astro';
+import type ExecutiveContact from '../../../utils/interfaces/ExcecutiveContact.interface';
+
+export function getStaticPaths() {
+  return [{ params: { lang: 'en' } }, { params: { lang: 'es' } }];
+}
+const { lang } = Astro.params;
+const t = lang === 'en' ? en : es;
+---
+
+<ProductLayout
+  title={t.title}
+  description={t.short_description}
+  name={t.title}
+  image={seguroIndividualImg.src}
+  color="#BED7E5"
+  executivesContact={t.executivesContact as ExecutiveContact[]}
+>
+  <Separator size="md" />
+  <p set:html={t.description} />
+  <div class="py-12 flex flex-col gap-8">
+    {
+      t.products.map((item) => (
+        <ProductDescriptionCard title={item.title} image={item.image}>
+          <div set:html={item.description} />
+        </ProductDescriptionCard>
+      ))
+    }
+  </div>
+</ProductLayout>

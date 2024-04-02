@@ -1,0 +1,64 @@
+---
+import es from '../../../data/locales/products/es/marine-y-carga';
+import en from '../../../data/locales/products/en/marine-y-carga';
+import ProductLayout from '../../../layouts/ProductLayout.astro';
+import marineImg from '../../../assets/img/products/marine-y-carga.png';
+import Title from '../../../components/atoms/Title.astro';
+import Separator from '../../../components/atoms/Separator.astro';
+import IconText from '../../../components/atoms/IconText.astro';
+import containersImg from '../../../assets/img/shared/containers.png';
+import roadImg from '../../../assets/img/shared/road.png';
+
+export function getStaticPaths() {
+  return [{ params: { lang: 'en' } }, { params: { lang: 'es' } }];
+}
+const { lang } = Astro.params;
+
+const t = lang === 'en' ? en : es;
+---
+
+<ProductLayout
+  title={t.title}
+  description={t.short_description}
+  name={t.title}
+  image={marineImg.src}
+  color="#BED7E5"
+  executivesContact={t.executivesContact}
+>
+  <Separator size="md" />
+  <div class="grid sm:grid-cols-2 gap-x-8 gap-y-12 sm:gap-y-20">
+    <div class="order-1">
+      <Title>{t.section_1.title}</Title>
+      <p class="pt-8" set:html={t.section_1.description} />
+    </div>
+
+    <img class="order-2" src={roadImg.src} alt="road buses" />
+    <img class="order-4 sm:order-3" src={containersImg.src} alt="containers" />
+
+    <div class="order-3 sm:order-4">
+      <p
+        class="uppercase text-anc-secondary-light text-lg font-semibold flex flex-col gap-2"
+      >
+        {t.section_2.title}
+        <span class="bg-anc-primary w-11 h-[6px] rounded-md block"></span>
+      </p>
+      <p class="pt-8" set:html={t.section_2.description} />
+    </div>
+  </div>
+  <Separator size="md" />
+  <div class="max-w-[408px] mx-auto text-center flex flex-col gap-8">
+    <Title barPosition="center">{t.services.title}</Title>
+    <p>
+      {t.services.description}
+    </p>
+  </div>
+  <div
+    class="my-8 grid sm:grid-cols-2 lg:grid-cols-4 gap-8 border border-anc-primary rounded-[30px] p-8 sm:p-20 items-baseline"
+  >
+    {
+      t.services.items.map((item) => (
+        <IconText text={item.text} icon={item.icon} />
+      ))
+    }
+  </div>
+</ProductLayout>

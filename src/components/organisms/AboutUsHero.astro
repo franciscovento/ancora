@@ -1,0 +1,40 @@
+---
+import SvgBarDecorator from '../atoms/icons/SvgBarDecorator.astro';
+import mapImage from '../../assets/img/backgrounds/about-us-hero-map.png';
+interface Props {
+  name: string;
+  description: string;
+  image?: string;
+}
+
+const { description, name, image } = Astro.props;
+---
+
+<div class="web-banner min-h-[400px] relative overflow-hidden">
+  <img
+      class="absolute -top-24 right-1/2 -translate-x-[calc(-50%_-_250px)] sm:-translate-x-[calc(-50%_-_350px)] md:-translate-x-[calc(-50%_-_400px)] lg:-translate-x-[calc(-50%_-_500px)] -z-10 rotate-45 -scale-x-100"
+      src={mapImage.src}
+      alt=""
+  />
+  <div
+      class="max-w-4xl mx-auto text-center min-h-[396px] grid gap-7 place-content-center px-4"
+  >
+    <h1 class="text-anc-primary text-xl sm:text-2xl font-sans font-semibold">{name}</h1>
+    <p style="text-wrap: balance;" class="text-3xl text-black font-serif">
+      {description}
+    </p>
+    {
+      image && (<img class="w-1/2 mx-auto" src={image} alt="Sembrando un nuevo México logo">)
+    }
+  </div>
+  <SvgBarDecorator
+      className="absolute translate-x-[calc(50%_+_600px)] right-1/2 top-8"
+      color="#0C2339"
+      rotate="right"
+  />
+  <SvgBarDecorator
+      className="absolute translate-x-[calc(50%_+_600px)] right-1/2 top-32"
+      color="#881929"
+      rotate="right"
+  />
+</div>

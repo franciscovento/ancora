@@ -1,0 +1,55 @@
+---
+import Separator from '../../components/atoms/Separator.astro';
+import es from '../../data/locales/faq/es/index';
+import en from '../../data/locales/faq/en/index';
+import Layout from '../../layouts/Layout.astro';
+import ProductsSlider from '../../components/organisms/ProductsSlider';
+import Title from '../../components/atoms/Title.astro';
+import Accordion from '../../components/organisms/Accordion';
+import ExecutiveContactCard from '../../components/atoms/ExecutiveContactCard.astro';
+import { getLangFromUrl } from '../../i18n/utils';
+
+export function getStaticPaths() {
+  return [{ params: { lang: 'en' } }, { params: { lang: 'es' } }];
+}
+
+const lang = getLangFromUrl(Astro.url);
+const t = lang == 'en' ? en : es;
+---
+
+<Layout>
+  <Separator size="md" />
+  <span
+    class="block text-4xl sm:text-5xl text-anc-primary text-center font-serif pb-[70px]"
+    >{t.title}</span
+  >
+  <div>
+    <span class="text-sm block text-center text-anc-text pb-8"
+      >{t.short_description}</span
+    >
+    <ProductsSlider products={t.products} client:load />
+  </div>
+
+  <Separator size="md" />
+  <div>
+    <Title class={'text-center'} barPosition="center">{t.faq.title}</Title>
+    <div>
+      <Accordion questions={t.faq.items} client:load />
+    </div>
+  </div>
+  <Separator size="md" />
+  <Title class={'text-center'} barPosition="center">{t.footer.title}</Title>
+  <div class="py-12 flex items-center gap-8 flex-wrap justify-center">
+    {
+      t.footer.executiveContacts.map((exc) => (
+        <ExecutiveContactCard
+          name={exc.name}
+          email={exc.email}
+          phone={exc.phone}
+          position={exc.position}
+          icon={exc.icon}
+        />
+      ))
+    }
+  </div>
+</Layout>

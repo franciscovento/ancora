@@ -1,0 +1,29 @@
+---
+import type { HTMLAttributes } from 'astro/types';
+interface Props extends HTMLAttributes<'input'> {
+  labelText: string;
+  cols?: number;
+}
+const { labelText, cols = 2, ...inputProps } = Astro.props;
+---
+
+<label
+  class:list={[
+    'grid gap-2',
+    {
+      'col-span-1': cols === 1,
+      'col-span-2': cols === 2,
+    },
+  ]}
+>
+  <span>{labelText}</span>
+  <slot>
+    <input
+      {...inputProps}
+      class:list={[
+        'border bg-transparent border-[#CDCDCD] no-arrow p-2 px-4 text-sm rounded-full focus:border-anc-primary outline-none transition-colors w-full text-anc-text-light italic font-light',
+        [inputProps.class],
+      ]}
+    />
+  </slot>
+</label>

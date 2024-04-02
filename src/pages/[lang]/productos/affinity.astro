@@ -1,0 +1,66 @@
+---
+import es from '../../../data/locales/products/es/affinity';
+import en from '../../../data/locales/products/en/affinity';
+import ProductLayout from '../../../layouts/ProductLayout.astro';
+import Separator from '../../../components/atoms/Separator.astro';
+import Title from '../../../components/atoms/Title.astro';
+import firstImg from '../../../assets/img/shared/shakehands.png';
+import secureImg from '../../../assets/img/shared/secure.png';
+import gameImg from '../../../assets/img/shared/game.png';
+import affinityImg from '../../../assets/img/products/affinity.png';
+
+export function getStaticPaths() {
+  return [{ params: { lang: 'en' } }, { params: { lang: 'es' } }];
+}
+
+const { lang } = Astro.params;
+
+const t = lang === 'en' ? en : es;
+---
+
+<ProductLayout
+  title={t.title}
+  description={t.short_description}
+  name={t.title}
+  image={affinityImg?.src}
+  color="#7A99B8"
+  executivesContact={t.executivesContact}
+>
+  <Separator size="md" />
+  <p class="text-center text-base" set:html={t.description} />
+  <Separator />
+  <div class="grid sm:grid-cols-2 gap-12 sm:gap-24 items-center">
+    <div>
+      <Title>{t.section1.title}</Title>
+      <p class="pt-6" set:html={t.section1.description} />
+    </div>
+    <div class="relative justify-self-end">
+      <img src={firstImg.src} />
+      <img
+        class="absolute w-[130px] bottom-12 -left-12"
+        src={secureImg.src}
+        alt=""
+      />
+    </div>
+  </div>
+  <div class="grid sm:grid-cols-2 gap-12 sm:gap-24 items-center pt-20">
+    <img class="order-2 sm:order-1 justify-self-end" src={gameImg.src} />
+    <div class="order-1 sm:order-2">
+      <Title>{t.section2.title}</Title>
+      <div class="text-sm flex flex-col gap-4 pt-6">
+        <p>
+          {t.section2.description}
+        </p>
+        <div class="grid sm:grid-cols-2 sm:gap-6">
+          <ul class="list-disc list-outside ml-5">
+            {t.section2.list1.map((item) => <li>{item}</li>)}
+          </ul>
+          <ul class="list-disc list-outside ml-5">
+            {t.section2.list2.map((item) => <li>{item}</li>)}
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+  <Separator size="sm" />
+</ProductLayout>

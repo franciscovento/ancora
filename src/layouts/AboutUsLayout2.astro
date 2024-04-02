@@ -1,0 +1,25 @@
+---
+import Layout from './Layout.astro';
+import layoutImg from '../assets/img/backgrounds/map.png';
+import AboutUsHero2 from "../components/organisms/AboutUsHero2.astro";
+
+interface Props {
+  title: string;
+  image: string;
+}
+
+const { title = 'Ancora | Nosotros', image} = Astro.props;
+---
+
+<Layout title={title}>
+  <AboutUsHero2 title={title} image={image} />
+  <div class="web-banner overflow-hidden">
+    <img
+        src={layoutImg.src}
+        class="absolute top-0 left-1/2 -z-10 -translate-x-[50%_-_500px]"
+    />
+    <div class="web-container">
+      <slot />
+    </div>
+  </div>
+</Layout>

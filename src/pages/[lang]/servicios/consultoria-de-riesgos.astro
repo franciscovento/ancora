@@ -1,0 +1,40 @@
+---
+import ProductLayout from '../../../layouts/ProductLayout.astro';
+import es from '../../../data/locales/services/es/consultoriaDeRiesgos';
+import en from '../../../data/locales/services/en/consultoriaDeRiesgos';
+import consultoriaRiesgoImg from '../../../assets/img/backgrounds/consultoria-riesgos-banner.png';
+import Separator from '../../../components/atoms/Separator.astro';
+import Title from '../../../components/atoms/Title.astro';
+import DetailedImageCard from '../../../components/molecules/DetailedImageCard.astro';
+
+export function getStaticPaths() {
+  return [{ params: { lang: 'en' } }, { params: { lang: 'es' } }];
+}
+
+const { lang } = Astro.params;
+
+const t = lang === 'en' ? en : es;
+---
+
+<ProductLayout
+  name={t.title}
+  description={t.description}
+  image={consultoriaRiesgoImg.src}
+  color="#E95E5E"
+>
+  <Separator size="md" />
+  <Title class={'text-center'} barPosition="center">{t.services.title}</Title>
+  <p class="text-center py-8">
+    {t.services.description}
+  </p>
+  <div class="flex flex-col gap-20 py-12">
+    {
+      t.services.items.map((service) => (
+        <DetailedImageCard title={service.name} image={service.image}>
+          <p set:html={service.description} />
+        </DetailedImageCard>
+      ))
+    }
+  </div>
+  <Separator />
+</ProductLayout>

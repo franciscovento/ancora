@@ -1,0 +1,63 @@
+---
+import en from "../../../../data/locales/us/en/responsabilidad-social";
+import es from "../../../../data/locales/us/es/responsabilidad-social";
+// import aboutUsInfo from '../../../../data/aboutUsInfo';
+import AboutUsLayout from '../../../../layouts/AboutUsLayout.astro'
+import Separator from "../../../../components/atoms/Separator.astro";
+import ResponsabilidadSocialTabs from "../../../../components/molecules/ResponsabilidadSocialTabs.astro";
+import mapImage from "../../../../assets/img/backgrounds/map.png";
+import sembrandoUnNuevoMexicoImage from '../../../../assets/img/about-us/sembrando-un-nuevo-mexico-logo.png'
+// const info = aboutUsInfo.find((info) => info.title === 'RESPONSABILIDAD SOCIAL');
+
+export function getStaticPaths() {
+  return [{ params: { lang: 'en' } }, { params: { lang: 'es' } }];
+}
+
+const { lang } = Astro.params;
+const t = lang === 'en' ? en : es;
+
+---
+
+<AboutUsLayout
+  title={t.hero.title}
+  description={t.hero.description || ''}
+  image={sembrandoUnNuevoMexicoImage.src}
+>
+  <div class="text-center">
+    <p set:html={t.section1.text1} />
+    <p class="mt-5" set:html={t.section1.text2} />
+    <p class="mt-5">{t.section1.text3}</p>
+    <div class="mt-5" set:html={t.section1.text4} />
+  </div>
+  <div class="mt-10 flex flex-wrap gap-10 justify-center md:justify-between items-center">
+    <iframe class="w-1/2 md:w-1/3" src="https://player.vimeo.com/video/876578598"></iframe>
+    <span class="hidden md:block">
+      <a href="https://www.facebook.com/people/Sembrando-un-nuevo-M%C3%A9xico/100070135995073/?mibextid=LQQJ4d" target="_blank">
+      <svg xmlns="http://www.w3.org/2000/svg" height="2em" viewBox="0 0 512 512"><!--! Font Awesome Free 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. --><path d="M504 256C504 119 393 8 256 8S8 119 8 256c0 123.78 90.69 226.38 209.25 245V327.69h-63V256h63v-54.64c0-62.15 37-96.48 93.67-96.48 27.14 0 55.52 4.84 55.52 4.84v61h-31.28c-30.8 0-40.41 19.12-40.41 38.73V256h68.78l-11 71.69h-57.78V501C413.31 482.38 504 379.78 504 256z"/></svg>
+    </a>
+    </span>
+    <iframe class="w-1/2 md:w-1/3" src="https://player.vimeo.com/video/876578538"></iframe>
+    <span class="w-1/2 flex justify-center md:hidden">
+      <a href="https://www.facebook.com/people/Sembrando-un-nuevo-M%C3%A9xico/100070135995073/?mibextid=LQQJ4d" target="_blank">
+      <svg xmlns="http://www.w3.org/2000/svg" height="2em" viewBox="0 0 512 512"><!--! Font Awesome Free 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. --><path d="M504 256C504 119 393 8 256 8S8 119 8 256c0 123.78 90.69 226.38 209.25 245V327.69h-63V256h63v-54.64c0-62.15 37-96.48 93.67-96.48 27.14 0 55.52 4.84 55.52 4.84v61h-31.28c-30.8 0-40.41 19.12-40.41 38.73V256h68.78l-11 71.69h-57.78V501C413.31 482.38 504 379.78 504 256z"/></svg>
+    </a>
+    </span>
+  </div>
+  <Separator size="md" />
+  <div class="h-[6px] w-[45px] rounded-full mt-2 bg-anc-primary mx-auto mb-5"></div>
+  <div class="text-center w-4/5 mx-auto">
+    <p>{t.section2.text1}</p>
+    <br>
+    <p>{t.section2.text2}</p>
+  </div>
+  <Separator size="md" />
+  <ResponsabilidadSocialTabs />
+  <Separator size="md" />
+  <div class="relative">
+    <img
+        class="absolute -z-10 bottom-2/4 md:-bottom-72 md:left-[calc(50%_-_500px)] lg:left-[calc(50%_-_700px)] -translate-x-1/2"
+        src={mapImage.src}
+        alt=""
+    />
+  </div>
+</AboutUsLayout>

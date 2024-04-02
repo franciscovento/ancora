@@ -1,0 +1,53 @@
+---
+import es from '../../../data/locales/us/es/red-de-aliados'
+import en from '../../../data/locales/us/en/red-de-aliados'
+import AboutUsLayout from '../../../layouts/AboutUsLayout2.astro';
+import aliadosImg from '../../../assets/img/about-us/aliados.png';
+import UNIBAPartnersImg from '../../../assets/img/about-us/UNIBA-partners.png';
+import Separator from "../../../components/atoms/Separator.astro";
+import Title from "../../../components/atoms/Title.astro";
+
+export function getStaticPaths() {
+  return [{ params: { lang: 'en' } }, { params: { lang: 'es' } }];
+}
+const { lang } = Astro.params;
+const t = lang === 'en' ? en : es;
+---
+
+<AboutUsLayout title={t.title} image={aliadosImg?.src}>
+  <Separator size="md" />
+  <p class="text-base text-center">
+    {t.intro}
+  </p>
+  <Separator size="md" />
+  <Title barPosition="center" class="text-center">{t.section1.title}</Title>
+  <Separator size="sm" />
+  <div class="bg-white rounded-[20px] p-8">
+    <ul>
+      {
+        t.section1.list.map((aliado) => (
+          <li class="flex py-3">
+            <svg class="min-w-[26px]" width="26" height="26" viewBox="0 0 26 26" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M9.48919 21.5318L2.94141 14.984L5.92534 12L9.48919 15.5744L19.9066 5.14648L22.8905 8.13042L9.48919 21.5318Z" fill="#9D192C"/>
+            </svg>
+            <span class="pl-4 text-sm text-anc-text">
+              { aliado }
+            </span>
+          </li>
+        ))
+      }
+    </ul>
+  </div>
+  <Separator size="md" />
+  <div class="md:flex">
+    <img class="mx-auto w-[192px] h-[192px]" src={UNIBAPartnersImg.src} alt="UNIBA Logo">
+    <div class="pl-8">
+      <Title>{t.section2.title}</Title>
+      <Separator size="sm" />
+      <p>
+        {t.section2.text}
+      </p>
+    </div>
+  </div>
+  <Separator size="md" />
+</AboutUsLayout>

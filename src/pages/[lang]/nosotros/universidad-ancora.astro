@@ -1,0 +1,65 @@
+---
+import es from '../../../data/locales/us/es/universidad-ancora';
+import en from '../../../data/locales/us/en/universidad-ancora';
+import Layout from '../../../layouts/Layout.astro';
+import bannerRed from '../../../assets/img/backgrounds/universidad-ancora.png';
+import universidadAncoraLogoImg from '../../../assets/img/about-us/universidad-ancora-logo.png';
+import rochatCreahanaImg from '../../../assets/img/about-us/rochat-creahana.png';
+import Separator from '../../../components/atoms/Separator.astro';
+import Title from '../../../components/atoms/Title.astro';
+import ExperienceCard from '../../../components/molecules/ExperienceCard.astro';
+import anchorImg from '../../../assets/img/backgrounds/anchor.png';
+export function getStaticPaths() {
+  return [{ params: { lang: 'en' } }, { params: { lang: 'es' } }];
+}
+const { lang } = Astro.params;
+
+const t = lang === 'en' ? en : es;
+---
+
+<Layout>
+  <section
+    style={`background-image: url(${bannerRed.src});`}
+    class="web-banner bg-cover bg-center bg-no-repeat"
+  >
+    <div
+      class="web-container grid sm:grid-cols-2 items-center gap-12 sm:gap-4 py-12 justify-items-center"
+    >
+      <div>
+        <span class="font-serif title-1 text-white block pb-4">{t.title}</span>
+      </div>
+      <div class="-mb-24 sm:justify-self-end">
+        <img src={universidadAncoraLogoImg.src} />
+      </div>
+    </div>
+  </section>
+  <div class="web-banner relative overflow-hidden">
+    <img
+      src={anchorImg.src}
+      class="absolute bottom-10 -z-10 left-1/2 translate-x-[calc(-50%_+_480px)]"
+    />
+    <div class="web-container">
+      <Separator />
+      <p class="text-center" set:html={t.description} />
+      <div class="py-12 grid sm:grid-cols-2">
+        <img src={rochatCreahanaImg.src} />
+        <div class="flex flex-col gap-8 pt-8">
+          <Title>{t.section_1.title}</Title>
+          <p set:html={t.section_1.description} />
+        </div>
+      </div>
+      <div class="flex justify-center flex-wrap gap-8 py-12">
+        {
+          t.benefits.map((item) => (
+            <ExperienceCard
+              text={item.description}
+              title={item.title}
+              img={item.image}
+            />
+          ))
+        }
+      </div>
+      <Separator size="sm" />
+    </div>
+  </div>
+</Layout>

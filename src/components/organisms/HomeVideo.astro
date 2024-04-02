@@ -1,0 +1,108 @@
+---
+import { getLangFromUrl, useTranslations } from '../../i18n/utils';
+
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
+---
+
+<div>
+  <div id="video-yt" class="relative scale-75 overlay">
+    <button
+      id="video-button"
+      class="absolute top-1/2 -translate-x-1/2 left-1/2 -translate-y-1/2 text-xs sm:text-base underline font-semibold flex flex-col items-center gap-4 justify-center text-white"
+    >
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        class="w-20 h-20 sm:w-[111px] sm:h-[111px] duration-500 hover:scale-105"
+        viewBox="0 0 111 111"
+        fill="none"
+      >
+        <path
+          d="M38.1562 79.7823C37.2363 79.7823 36.354 79.4169 35.7035 78.7664C35.053 78.1158 34.6875 77.2335 34.6875 76.3136V34.6886C34.6878 34.0975 34.8392 33.5164 35.1271 33.0002C35.4151 32.4841 35.8302 32.0501 36.3331 31.7395C36.8359 31.4288 37.4097 31.2518 38.0002 31.2252C38.5906 31.1986 39.1781 31.3233 39.7068 31.5875L81.3318 52.4C81.9072 52.6884 82.391 53.1312 82.7291 53.6789C83.0672 54.2265 83.2463 54.8575 83.2463 55.5011C83.2463 56.1447 83.0672 56.7756 82.7291 57.3233C82.391 57.871 81.9072 58.3137 81.3318 58.6021L39.7068 79.4146C39.2254 79.6557 38.6946 79.7816 38.1562 79.7823ZM41.625 40.301V70.7011L72.0251 55.5011L41.625 40.301Z"
+          fill="#F2F1ED"></path>
+        <path
+          d="M55.5 13.875C63.7327 13.875 71.7804 16.3163 78.6256 20.8901C85.4708 25.4639 90.806 31.9648 93.9565 39.5708C97.107 47.1768 97.9313 55.5462 96.3252 63.6206C94.7191 71.6951 90.7547 79.112 84.9333 84.9333C79.112 90.7547 71.6951 94.7191 63.6207 96.3252C55.5462 97.9313 47.1768 97.107 39.5708 93.9565C31.9649 90.806 25.4639 85.4708 20.8901 78.6256C16.3163 71.7804 13.875 63.7326 13.875 55.5C13.875 44.4604 18.2605 33.8729 26.0667 26.0667C33.8729 18.2605 44.4604 13.875 55.5 13.875ZM55.5 6.9375C45.8953 6.9375 36.5062 9.78564 28.5201 15.1218C20.5341 20.4579 14.3097 28.0423 10.6341 36.9159C6.95854 45.7896 5.99684 55.5539 7.87064 64.9741C9.74443 74.3943 14.3696 83.0473 21.1611 89.8389C27.9527 96.6305 36.6057 101.256 46.026 103.129C55.4462 105.003 65.2104 104.041 74.0841 100.366C82.9577 96.6903 90.5422 90.4659 95.8783 82.4799C101.214 74.4938 104.063 65.1048 104.063 55.5C104.063 42.6204 98.9461 30.2684 89.8389 21.1611C80.7317 12.0539 68.3796 6.9375 55.5 6.9375Z"
+          fill="#F2F1ED"></path>
+      </svg>
+      {t('video.playVideo')}
+    </button>
+    <div id="vimeo-preview" style="padding:56.25% 0 0 0;position:relative;">
+      <iframe
+        src={'https://player.vimeo.com/video/873524752?autoplay=1&loop=1&background=1&title=0&byline=0&portrait=0'}
+        style="position:absolute;top:0;left:0;width:100%;height:100%;"
+        frameborder="0"
+        allow="autoplay; fullscreen; picture-in-picture"
+        allow="autoplay; fullscreen; picture-in-picture"></iframe>
+    </div>
+    <div
+      id="vimeo-container"
+      class="absolute left-0 top-0 w-full h-full opacity-0 -z-10"
+      style="padding:56.25% 0 0 0;"
+    >
+      <iframe
+        id="vimeo"
+        src={lang === 'en'
+          ? 'https://player.vimeo.com/video/877961751?autoplay=1&loop=1&background=1&title=0&byline=0&portrait=0'
+          : 'https://player.vimeo.com/video/873525205?autoplay=1&loop=1&background=1&title=0&byline=0&portrait=0'}
+        style="position:absolute;top:0;left:0;width:100%;height:100%;"
+        frameborder="0"
+        allow="autoplay; fullscreen; picture-in-picture"
+        allow="autoplay; fullscreen; picture-in-picture"></iframe>
+    </div>
+  </div>
+</div>
+<script src="https://player.vimeo.com/api/player.js"></script>
+<style>
+  .overlay::before {
+    content: ''; /* Pseudo-elemento para la capa oscura */
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.3); /* Color negro con 30% de opacidad */
+    pointer-events: none; /* Asegúrate de que los clics pasen a través de esta capa */
+    z-index: 1; /* Para que esté por encima del video pero debajo del botón */
+  }
+  #video-button {
+    z-index: 2; /* Asegúrate de que el botón esté por encima del video y la capa oscura */
+  }
+</style>
+<script>
+  const videoSection = document.getElementById('video-yt');
+  const vimeo = document.getElementById('vimeo');
+  const vimeoContainer = document.getElementById('vimeo-container');
+  const preview = document.getElementById('vimeo-preview');
+  const button = document.getElementById('video-button');
+
+  function scaleVideo() {
+    const minScale = 0.75;
+    const maxScale = 1;
+    const videoOffset = videoSection?.getBoundingClientRect().top;
+    if (videoOffset && videoOffset > 0) {
+      const scale =
+        minScale +
+        (maxScale - minScale) *
+          (1 - Math.abs(videoOffset) / window.innerHeight);
+      videoSection.style.transform = `scale(${scale})`;
+    }
+  }
+
+  function showVideo() {
+    preview!.style.opacity = '0';
+    preview!.style.zIndex = '-1';
+    vimeoContainer!.style.opacity = '1';
+    vimeoContainer!.style.zIndex = '1';
+    videoSection?.classList.remove('overlay');
+    let src = vimeo?.getAttribute('src');
+    const item = src?.replace('background=1', 'background=0') || '';
+    vimeo?.setAttribute('src', item);
+    button!.style.display = 'none';
+  }
+
+  button?.addEventListener('click', () => {
+    showVideo();
+  });
+
+  document.addEventListener('scroll', scaleVideo);
+</script>

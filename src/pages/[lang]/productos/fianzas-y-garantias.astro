@@ -1,0 +1,78 @@
+---
+import es from '../../../data/locales/products/es/fianzas-y-garantias';
+import en from '../../../data/locales/products/en/fianzas-y-garantias';
+import ProductLayout from '../../../layouts/ProductLayout.astro';
+import Separator from '../../../components/atoms/Separator.astro';
+import Title from '../../../components/atoms/Title.astro';
+import constructionImg from '../../../assets/img/shared/construccion.png';
+import conversationImg from '../../../assets/img/shared/conversacion.png';
+import SimpleCard from '../../../components/molecules/SimpleCard.astro';
+import fianzasImg from '../../../assets/img/products/finanzas.png';
+
+export function getStaticPaths() {
+  return [{ params: { lang: 'en' } }, { params: { lang: 'es' } }];
+}
+const { lang } = Astro.params;
+
+const t = lang === 'en' ? en : es;
+---
+
+<ProductLayout
+  title={t.title}
+  description={t.short_description}
+  name={t.title}
+  image={fianzasImg.src}
+  color="#467FF2"
+  executivesContact={t.executivesContact}
+>
+  <Separator size="md" />
+  <Title barPosition="center" class={'text-center'}>
+    {t.purpose_value.title}
+  </Title>
+  <div class="flex flex-col gap-4 py-12">
+    <p set:html={t.purpose_value.description} />
+  </div>
+  <div class="flex flex-col gap-20">
+    <div
+      class="grid sm:grid-cols-2 gap-8 sm:gap-12 items-center place-items-end"
+    >
+      <div>
+        <Title>{t.purpose_value.item1.title}</Title>
+        <div class="flex flex-col gap-4 text-anc-secondary text-sm mt-5">
+          <p set:html={t.purpose_value.item1.description} />
+        </div>
+      </div>
+      <img src={constructionImg.src} alt="Propuesta de valor" />
+    </div>
+    <div class="grid sm:grid-cols-2 gap-8 sm:gap-12 items-center">
+      <img
+        class="order-2 sm:order-1"
+        src={conversationImg.src}
+        alt="Propuesta de valor"
+      />
+      <div class="order-1 sm:order-2">
+        <!--<p
+          class="pb-8 text-sm uppercase font-semibold text-anc-secondary-light flex flex-col gap-2"
+        >
+          {t.purpose_value.item2.title}
+          <span class="block w-11 h-2 bg-anc-primary rounded-md"></span>
+        </p>-->
+        <Title>{t.purpose_value.item2.title}</Title>
+        <div class="flex flex-col gap-4 text-anc-secondary text-sm mt-5">
+          <p set:html={t.purpose_value.item2.description} />
+        </div>
+      </div>
+    </div>
+  </div>
+  <Separator size="md" />
+  <Title class={'text-center'} barPosition="center">{t.bail_types.title}</Title>
+  <div class="py-12 grid sm:grid-cols-2 gap-8">
+    {
+      t.bail_types.items.map((type) => (
+        <SimpleCard variant="secondary" title={type.title}>
+          <div set:html={type.description} />
+        </SimpleCard>
+      ))
+    }
+  </div>
+</ProductLayout>

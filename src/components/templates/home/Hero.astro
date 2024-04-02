@@ -1,0 +1,46 @@
+---
+import es from '../../../data/locales/home/es/index';
+import en from '../../../data/locales/home/en/index';
+import arrowDown from '../../../assets/svg/arrow-down.svg';
+import mainHeroImage from '../../../assets/img/main-hero.png';
+import heroMapImg from '../../../assets/img/backgrounds/hero-map.png';
+import HomeVideo from '../../organisms/HomeVideo.astro';
+import { getLangFromUrl } from '../../../i18n/utils';
+
+const lang = getLangFromUrl(Astro.url);
+const t = lang == 'en' ? en : es;
+---
+
+<!-- HERO SECTION -->
+<section class="web-banner relative">
+  <img
+    class="absolute -top-28 right-1/2 translate-x-[calc(50%_-_300px)] -z-10"
+    src={heroMapImg.src}
+    alt=""
+  />
+  <div class="web-container grid md:grid-cols-[4fr_6fr] items-center">
+    <div class="order-2 md:order-first">
+      <h5 class="text-center md:text-left title text-3xl md:text-4xl text-anc-primary font-semibold">
+        {t.hero.headline}
+      </h5> <br>
+      <h2 class="text-4xl lg:text-5xl font-serif pr-2">
+        {t.hero.title}
+      </h2>
+    </div>
+    <div class="item self-start overflow-hidden">
+      <img class="translate-x-10" src={mainHeroImage.src} alt="" />
+    </div>
+    <button
+      class="mx-auto order-last md:order-3 md:col-span-2 block animate-bounce mt-4"
+    >
+      <a href={`/${lang}/#homevideo`}>
+        <img class="w-12 sm:h-16 h-12 sm:w-16" src={arrowDown.src} alt="" />
+      </a>
+    </button>
+  </div>
+</section>
+<div id="homevideo" class="web-banner">
+  <div class="max-w-[2000px] mx-auto">
+    <HomeVideo />
+  </div>
+</div>

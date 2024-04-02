@@ -1,0 +1,45 @@
+---
+import es from '../../../data/locales/products/es/cyber';
+import en from '../../../data/locales/products/en/cyber';
+import ProductLayout from '../../../layouts/ProductLayout.astro';
+import Separator from '../../../components/atoms/Separator.astro';
+import Title from '../../../components/atoms/Title.astro';
+import DetailedImageCard from '../../../components/molecules/DetailedImageCard.astro';
+import cyberImg from '../../../assets/img/products/cyber.png';
+
+export function getStaticPaths() {
+  return [{ params: { lang: 'en' } }, { params: { lang: 'es' } }];
+}
+const { lang } = Astro.params;
+
+const t = lang === 'en' ? en : es;
+---
+
+<ProductLayout
+  title={t.title}
+  description={t.short_description}
+  name={t.title}
+  image={cyberImg.src}
+  color="#BED7E5"
+  executivesContact={t.executivesContact}
+>
+  <Separator size="md" />
+  <Title barPosition="center" class={'text-center'}>{t.coverage.title}</Title>
+  <div class="text-sm py-12 flex flex-col gap-4">
+    <p set:html={t.coverage.description} />
+  </div>
+  <div class="py-12">
+    {
+      t.products.map((item) => (
+        <DetailedImageCard image={item.image} title={item.title}>
+          <p>{item.description}</p>
+          <ul class="list-disc list-inside pt-4 text-sm">
+            {item.list.map((li) => (
+              <li>{li}</li>
+            ))}
+          </ul>
+        </DetailedImageCard>
+      ))
+    }
+  </div>
+</ProductLayout>

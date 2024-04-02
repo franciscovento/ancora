@@ -1,0 +1,33 @@
+---
+import es from '../../../data/locales/us/es/trabaja-con-nosotros'
+import en from '../../../data/locales/us/en/trabaja-con-nosotros'
+import AboutUsLayout from '../../../layouts/AboutUsLayout2.astro';
+import trabajaConNosotrosImg from '../../../assets/img/about-us/trabaja-con-nosotros.png';
+import Separator from '../../../components/atoms/Separator.astro';
+import JobApplicationForm from '../../../components/templates/about-us/JobApplicationForm.astro';
+
+export function getStaticPaths() {
+  return [{ params: { lang: 'en' } }, { params: { lang: 'es' } }];
+}
+const { lang } = Astro.params;
+const t = lang === 'en' ? en : es;
+---
+
+<AboutUsLayout title={t.title} image={trabajaConNosotrosImg?.src}>
+  <Separator size="md" />
+  <div class="text-center">
+    <h1 class="text-anc-primary text-xl sm:text-2xl font-sans font-semibold">
+      {t.section1.title}
+    </h1>
+    <h2 class="text-3xl mt-2">
+      {t.section1.subtitle}
+    </h2>
+  </div>
+  <Separator size="sm" />
+  <p class="text-base">
+    {t.section1.text}
+  </p>
+  <Separator size="sm" />
+  <JobApplicationForm />
+  <Separator size="sm" />
+</AboutUsLayout>

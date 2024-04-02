@@ -1,0 +1,53 @@
+---
+import es from '../../../data/locales/products/es/index';
+import en from '../../../data/locales/products/en/index';
+import Layout from '../../../layouts/Layout.astro';
+import productsBanner from '../../../assets/img/products/products-banner.png';
+import bannerBlue from '../../../assets/img/shared/banner-blue.png';
+import Separator from '../../../components/atoms/Separator.astro';
+import ProductCard from '../../../components/atoms/ProductCard.astro';
+import { getLangFromUrl } from '../../../i18n/utils';
+
+export function getStaticPaths() {
+  return [{ params: { lang: 'en' } }, { params: { lang: 'es' } }];
+}
+const lang = getLangFromUrl(Astro.url);
+const t = lang == 'en' ? en : es;
+---
+
+<Layout title="Productos">
+  <section
+    style={`background-image: url(${bannerBlue.src});`}
+    class="web-banner bg-cover bg-center bg-no-repeat"
+  >
+    <div
+      class="web-container grid sm:grid-cols-2 items-center gap-12 sm:gap-20 py-12"
+    >
+      <div>
+        <span class="font-serif title-1 text-white block pb-4">{t.title}</span>
+        <h1 class="font-sans text-white text-xl">
+          {t.short_description}
+        </h1>
+      </div>
+      <div class="-mb-24">
+        <img src={productsBanner.src} />
+      </div>
+    </div>
+  </section>
+  <Separator />
+  <div
+    class="grid sm:grid-cols-2 lg:grid-cols-3 gap-2 gap-y-8 justify-center justify-items-center"
+  >
+    {
+      t.products.map((item) => (
+        <ProductCard
+          link={`/${lang}${item.link}`}
+          image={item.thumbnail}
+          name={item.name}
+          short_description={item.short_description}
+        />
+      ))
+    }
+  </div>
+  <Separator />
+</Layout>

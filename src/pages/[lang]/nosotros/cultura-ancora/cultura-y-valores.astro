@@ -1,0 +1,74 @@
+---
+import en from "../../../../data/locales/us/en/cultura-y-valores";
+import es from "../../../../data/locales/us/es/cultura-y-valores";
+// import aboutUsInfo from '../../../../data/aboutUsInfo';
+import AboutUsLayout from '../../../../layouts/AboutUsLayout.astro'
+import peopleImg from "../../../../assets/img/about-us/people.png";
+import anchorImg from "../../../../assets/img/about-us/anchor.png";
+import anchorIconImg from "../../../../assets/img/about-us/anchor-icon.png";
+import helmIconImg from "../../../../assets/img/about-us/helm-icon.png";
+import Separator from "../../../../components/atoms/Separator.astro";
+import Title from "../../../../components/atoms/Title.astro";
+import PilaresCard from "../../../../components/molecules/PilaresCard.astro";
+// const info = aboutUsInfo.find((info) => info.title === 'CULTURA Y VALORES');
+// import pilares from '../../../../data/pilares';
+import TestimonialSlider  from "../../../../components/organisms/TestimonialSlider";
+import mapImage from "../../../../assets/img/backgrounds/map.png";
+
+export function getStaticPaths() {
+  return [{ params: { lang: 'en' } }, { params: { lang: 'es' } }];
+}
+
+const { lang } = Astro.params;
+const t = lang === 'en' ? en : es;
+---
+
+<AboutUsLayout
+  title={t.hero.title}
+  description={t.hero.description || ''}
+>
+  <div class="relative lg:mt-20">
+    <img class="absolute -top-16 hidden lg:block right-20" src={anchorImg.src} alt="Historia Ancora" />
+    <img class="mx-auto lg:mx-0 lg:relative left-20" src={peopleImg.src} alt="Historia Ancora" />
+  </div>
+  <Separator size="md" />
+  <div class="flex gap-10 sm:gap-36 sm:justify-center flex-wrap">
+    <div>
+      <img class="w-15 mb-2" src={anchorIconImg.src} alt="Ícono ancla" />
+      <Title variant="secondary" class={'text-xl'}>{t.section1.purpose.title}</Title>
+      <p class="pt-4">
+        {t.section1.purpose.description}
+      </p>
+    </div>
+    <div>
+      <img class="w-15 mb-2" src={helmIconImg.src} alt="Ícono ancla" />
+      <Title variant="secondary" class={'text-xl'}>{t.section1.mantra.title}</Title>
+      <p class="pt-4">
+        {t.section1.mantra.description}
+      </p>
+    </div>
+  </div>
+  <Separator size="md" />
+  <div class="relative">
+    <img
+        class="absolute -z-10 bottom-2/4 md:-bottom-72 md:left-[calc(50%_-_500px)] lg:left-[calc(50%_-_700px)] -translate-x-1/2"
+        src={mapImage.src}
+        alt=""
+    />
+  </div>
+  <h2 class="text-center text-2xl sm:text-3xl">{t.section2.title}</h2>
+  <div class="h-[6px] w-[45px] rounded-full mt-2 bg-anc-primary mx-auto mb-5"></div>
+  {
+    t.section2.list.map((item) => (
+      <PilaresCard
+        title={item.title}
+        text={item.text}
+        img={item.img}
+      />
+    ))
+  }
+  <Separator size="md" />
+  <div class="h-[6px] w-[45px] rounded-full bg-anc-primary mx-auto my-5"></div>
+  <TestimonialSlider testimonials={t.testimonials} client:load />
+  <Separator />
+</AboutUsLayout>

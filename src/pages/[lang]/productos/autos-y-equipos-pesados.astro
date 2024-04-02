@@ -1,0 +1,45 @@
+---
+import es from '../../../data/locales/products/es/autos-y-equipo-pesado';
+import en from '../../../data/locales/products/en/autos-y-equipo-pesado';
+import ProductLayout from '../../../layouts/ProductLayout.astro';
+import autosImg from '../../../assets/img/products/autos-y-equipo-pesado.png';
+import Title from '../../../components/atoms/Title.astro';
+import Separator from '../../../components/atoms/Separator.astro';
+import ThumbnailCard from '../../../components/atoms/ThumbnailCard.astro';
+
+export function getStaticPaths() {
+  return [{ params: { lang: 'en' } }, { params: { lang: 'es' } }];
+}
+const { lang } = Astro.params;
+
+const t = lang === 'en' ? en : es;
+---
+
+<ProductLayout
+  title={t.title}
+  description={t.short_description}
+  name={t.title}
+  image={autosImg.src}
+  color="#BED7E5"
+  executivesContact={t.executivesContact}
+>
+  <Separator size="md" />
+  <Title barPosition="center" class="text-center">
+    {t.value_proposal.title}
+  </Title>
+  <div class="flex flex-col gap-4 py-12">
+    <p set:html={t.value_proposal.description} />
+  </div>
+  <Title barPosition="center" class={'text-center'}>{t.products.title}</Title>
+  <div class="web-banner">
+    <div
+      class="max-w-7xl mx-auto pt-20 pb-8 flex flex-wrap gap-y-16 gap-x-8 items-center justify-center"
+    >
+      {
+        t.products.items.map((item) => (
+          <ThumbnailCard name={item.name} image={item.image} />
+        ))
+      }
+    </div>
+  </div>
+</ProductLayout>

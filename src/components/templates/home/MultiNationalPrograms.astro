@@ -1,0 +1,57 @@
+---
+import routes from '../../../../routes';
+import en from '../../../data/locales/home/en/index';
+import es from '../../../data/locales/home/es/index';
+import multinationalImg from '../../../assets/img/shared/multinational-programs.png';
+import universidadAncoraImg from '../../../assets/img/shared/universidad-ancora.png';
+import Title from '../../atoms/Title.astro';
+import { getLangFromUrl } from '../../../i18n/utils';
+
+const lang = getLangFromUrl(Astro.url);
+const t = lang == 'en' ? en : es;
+---
+
+<section>
+  <div class="flex flex-col gap-16">
+    <div class="grid sm:grid-cols-2 items-center gap-8 relative">
+      <div class="flex flex-col gap-8">
+        <Title class={'text-4xl whitespace-pre-wrap'}>
+          {t.benefits.items[0].title}
+        </Title>
+        <div>
+          <p set:html={t.benefits.items[0].description} class="pb-4" />
+        </div>
+        <a
+          class="text-anc-primary underline"
+          href={`/${lang}${routes.productos.programas_multinacionales}`}
+          >{t.benefits.items[0].link} {'>'}</a
+        >
+      </div>
+      <img
+        class="justify-self-end"
+        src={multinationalImg.src}
+        alt="programas multinacionales de ancora"
+      />
+    </div>
+    <div class="grid sm:grid-cols-2 items-center gap-8">
+      <img
+        class="order-2 sm:order-1"
+        src={universidadAncoraImg.src}
+        alt="universidad ancora"
+      />
+      <div class="order-1 sm:order-2 flex flex-col gap-8">
+        <Title class={'text-4xl'} headline={t.benefits.items[1].headline}>
+          {t.benefits.items[1].title}
+        </Title>
+        <div>
+          <p class="pb-4" set:html={t.benefits.items[1].description} />
+        </div>
+        <a
+          class="text-anc-primary underline"
+          href={`/${lang}${routes.nosotros.universidad_ancora}`}
+          >{t.benefits.items[1].link}{'>'}</a
+        >
+      </div>
+    </div>
+  </div>
+</section>

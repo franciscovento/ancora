@@ -1,0 +1,35 @@
+{
+  "name": "ancora",
+  "type": "module",
+  "version": "0.0.1",
+  "scripts": {
+    "dev": "astro dev",
+    "start": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview",
+    "astro": "astro",
+    "prettier": "prettier --write ."
+  },
+  "dependencies": {
+    "@astrojs/react": "^3.0.3",
+    "@astrojs/tailwind": "^5.0.0",
+    "@astrojs/vue": "^3.0.1",
+    "@netlify/emails": "^1.1.0",
+    "@netlify/functions": "^2.3.0",
+    "@types/react": "^18.2.28",
+    "@types/react-dom": "^18.2.13",
+    "astro": "^3.1.4",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "react-hook-form": "^7.47.0",
+    "sweetalert2": "^11.7.32",
+    "sweetalert2-react-content": "^5.0.7",
+    "swiper": "^10.3.1",
+    "tailwindcss": "^3.3.3",
+    "vue": "^3.3.4"
+  },
+  "devDependencies": {
+    "prettier": "^3.0.3",
+    "prettier-plugin-astro": "^0.12.0"
+  }
+}

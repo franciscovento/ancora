@@ -1,0 +1,36 @@
+---
+interface Props {
+  img: string;
+  title: string;
+  text: string;
+  paragraphSize?: 'xs' | 'sm';
+}
+const { img, title, text, paragraphSize } = Astro.props;
+---
+
+<article
+  class="w-[285px] rounded-tr-[30px] rounded-bl-[30px] overflow-hidden bg-white"
+>
+  <header class="h-[164px]">
+    <img
+      class="block h-full w-full object-cover rounded-bl-[30px] object-center"
+      src={img}
+      alt=""
+    />
+  </header>
+  <section class="p-5 py-6 text-center grid gap-4 justify-items-center">
+    <h4 class="font-serif text-2xl">{title}</h4>
+    <p
+      class:list={[
+        'text-anc-secondary-light',
+        {
+          'text-sm': paragraphSize === 'sm',
+          'text-xs': paragraphSize === 'xs',
+        },
+      ]}
+    >
+      {text}
+    </p>
+    <slot />
+  </section>
+</article>

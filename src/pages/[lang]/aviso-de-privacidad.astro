@@ -1,0 +1,21 @@
+---
+import { getLangFromUrl } from "../../i18n/utils";
+import en from "../../data/locales/aviso-de-privacidad/en";
+import es from "../../data/locales/aviso-de-privacidad/es";
+import Layout from "../../layouts/Layout.astro";
+import Separator from "../../components/atoms/Separator.astro";
+export function getStaticPaths() {
+  return [{ params: { lang: 'en' } }, { params: { lang: 'es' } }];
+}
+
+const lang = getLangFromUrl(Astro.url);
+const t = lang == 'en' ? en : es;
+---
+<Layout title={t.title}>
+  <div set:html={t.content} />
+</Layout>
+<style>
+    p, h1, h2, h3, ul {
+        margin-bottom: 30px;
+    }
+</style>

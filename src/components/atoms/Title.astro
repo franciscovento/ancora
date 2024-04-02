@@ -1,0 +1,47 @@
+---
+import type { HTMLAttributes } from 'astro/types';
+interface Props extends HTMLAttributes<'p'> {
+  variant?: 'primary' | 'secondary' | 'secondary-light' | 'accent';
+  barPosition?: 'center' | 'left';
+  tag?: 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6';
+  headline?: string;
+}
+const {
+  variant = 'primary',
+  barPosition = 'right',
+  tag = 'h2',
+  headline = null,
+  ...titleProps
+} = Astro.props;
+
+const Tag = tag;
+---
+
+<div>
+  {
+    headline && (
+      <h3 class="text-sm font-semibold text-anc-secondary-light uppercase">
+        {headline}
+      </h3>
+    )
+  }
+  <Tag class:list={['text-3xl font-serif text-black', titleProps.class]}>
+    <slot />
+  </Tag>
+
+  <div
+    class:list={[
+      'h-[6px] w-[45px] rounded-full mt-2',
+      {
+        'mx-auto': barPosition === 'center',
+      },
+      {
+        'bg-anc-primary': variant === 'primary',
+        'bg-anc-secondary': variant === 'secondary',
+        'bg-anc-secondary-light': variant === 'secondary-light',
+        'bg-anc-accent': variant === 'accent',
+      },
+    ]}
+  >
+  </div>
+</div>

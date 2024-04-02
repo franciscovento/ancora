@@ -1,0 +1,71 @@
+---
+import es from '../../../data/locales/services/es/prevecionWellness';
+import en from '../../../data/locales/services/en/prevecionWellness';
+import ProductLayout from '../../../layouts/ProductLayout.astro';
+import prevencionWellnessImg from '../../../assets/img/backgrounds/prevencion-wellnes-banner.png';
+import dealImg from '../../../assets/img/shared/deal.png';
+import Separator from '../../../components/atoms/Separator.astro';
+import Title from '../../../components/atoms/Title.astro';
+import ThumbnailCard from '../../../components/atoms/ThumbnailCard.astro';
+import hospitalesPartnersImg from '../../../assets/img/partners/hospitales.png';
+import laboratoriosImg from '../../../assets/img/partners/laboratorios.png';
+import serviciosAuxiliaresImg from '../../../assets/img/partners/servicios-auxiliares.png';
+import ProductFooter from '../../../components/organisms/ProductFooter.astro';
+
+export function getStaticPaths() {
+  return [{ params: { lang: 'en' } }, { params: { lang: 'es' } }];
+}
+
+const { lang } = Astro.params;
+const t = lang === 'en' ? en : es;
+---
+
+<ProductLayout
+  name={t.title}
+  description={t.short_description}
+  image={prevencionWellnessImg.src}
+  color="#7A99B8"
+>
+  <Separator size="sm" />
+  <p class="py-12 text-center" set:html={t.description} />
+  <Title class={'text-center'} barPosition="center">
+    {t.beneficiosIncluidos.title}
+  </Title>
+  <div
+    class="py-20 grid sm:grid-cols-2 lg:grid-cols-3 gap-x-12 gap-y-16 justify-items-center"
+  >
+    {
+      t.beneficiosIncluidos.items.map((item) => (
+        <ThumbnailCard
+          textPosition="left"
+          image={item.image}
+          name={item.description}
+        />
+      ))
+    }
+  </div>
+  <div class="grid sm:grid-cols-2 gap-8 py-12">
+    <div>
+      <Title>{t.alianzasEstrategicas.title}</Title>
+      <p set:html={t.alianzasEstrategicas.description} />
+    </div>
+    <img class="justify-self-end" src={dealImg.src} />
+  </div>
+  <div class="flex flex-col gap-12 py-12">
+    <div class="flex flex-col gap-8">
+      <Title class="text-center" barPosition="center">{t.hospitales}</Title>
+      <img src={hospitalesPartnersImg.src} />
+    </div>
+    <div class="flex flex-col gap-8">
+      <Title class="text-center" barPosition="center">
+        {t.servicios_auxiliares}
+      </Title>
+      <img src={serviciosAuxiliaresImg.src} />
+    </div>
+    <div class="flex flex-col gap-8">
+      <Title class="text-center" barPosition="center">{t.laboratorios}</Title>
+      <img src={laboratoriosImg.src} />
+    </div>
+  </div>
+  <ProductFooter executivesContact={t.executiveContacts} />
+</ProductLayout>

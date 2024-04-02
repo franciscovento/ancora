@@ -1,0 +1,47 @@
+---
+import es from '../../../data/locales/services/es';
+import en from "../../../data/locales/services/en";
+import Layout from '../../../layouts/Layout.astro';
+import servicesBannerImg from '../../../assets/img/backgrounds/services-banner.png';
+import shakeHandsImg from '../../../assets/img/shared/shakehands.png';
+import Separator from '../../../components/atoms/Separator.astro';
+import ServiceCard from '../../../components/atoms/ServicesCard.astro';
+
+export function getStaticPaths() {
+  return [{ params: { lang: 'en' } }, { params: { lang: 'es' } }];
+}
+const { lang } = Astro.params;
+const t = lang === 'en' ? en : es;
+---
+
+<Layout>
+  <section
+    style={`background-image: url(${servicesBannerImg.src});`}
+    class="web-banner bg-cover bg-center bg-no-repeat"
+  >
+    <div
+      class="web-container grid sm:grid-cols-2 items-center gap-12 sm:gap-20 py-12"
+    >
+      <div>
+        <span class="font-serif title-1 text-white block pb-4">{t.title}</span>
+        <h1 class="font-sans text-white text-xl">
+          {t.description}
+        </h1>
+      </div>
+      <div class="-mb-24">
+        <img src={shakeHandsImg.src} />
+      </div>
+    </div>
+  </section>
+  <Separator />
+  <div
+    class="grid sm:grid-cols-2 gap-8 py-12 items-center justify-items-center"
+  >
+    {
+      t.services.map((item) => (
+        <ServiceCard name={item.title} link={`/${lang}${item.url}`} image={item.image} />
+      ))
+    }
+  </div>
+  <Separator size="md" />
+</Layout>

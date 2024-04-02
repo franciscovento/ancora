@@ -1,0 +1,67 @@
+---
+import en from "../../../../data/locales/us/en/nuestra-historia";
+import es from "../../../../data/locales/us/es/nuestra-historia";
+// import aboutUsInfo from '../../../../data/aboutUsInfo';
+import AboutUsLayout from '../../../../layouts/AboutUsLayout.astro'
+import Separator from "../../../../components/atoms/Separator.astro";
+import historiaImg from "../../../../assets/img/about-us/historia.png";
+import jorgeSalasImg from "../../../../assets/img/about-us/jorge-salas.png";
+import Title from "../../../../components/atoms/Title.astro";
+import profesionalismoImg from "../../../../assets/img/about-us/profesionalismo.png";
+import lanternImage from "../../../../assets/img/backgrounds/lantern.png";
+import NuestraHistoriaVideo from "../../../../components/organisms/NuestraHistoriaVideo.astro";
+// const info = aboutUsInfo.find((info) => info.title === 'NUESTRA HISTORIA');
+export function getStaticPaths() {
+  return [{ params: { lang: 'en' } }, { params: { lang: 'es' } }];
+}
+
+const { lang } = Astro.params;
+const t = lang === 'en' ? en : es;
+---
+
+<AboutUsLayout
+  title={t.hero.title}
+  description={t.hero.description || ''}
+>
+  <div class="h-[6px] w-[45px] rounded-full mt-2 bg-anc-primary mx-auto mb-5"></div>
+  <p class="text-center pb-5" set:html={t.section1.p1} />
+  <p class="text-center pb-5" set:html={t.section1.p2} />
+  <p class="text-center" set:html={t.section1.p3} />
+  <Separator size="md" />
+  <div class="relative">
+    <img
+        class="absolute -bottom-[200px] right-[calc(50%_-_650px)] translate-x-1/2"
+        src={lanternImage.src}
+        alt=""
+    />
+    <img class="mx-auto" src={historiaImg.src} alt="Historia Ancora" />
+  </div>
+  <Separator />
+  <div class="grid sm:grid-cols-2 gap-12 sm:gap-24 items-center">
+    <div>
+      <Title set:html={t.section2.title} />
+      <div class="text-sm flex flex-col gap-4 pt-6">
+        <p set:html={t.section2.p1} />
+        <p set:html={t.section2.p2} />
+      </div>
+    </div>
+    <div class="sm:justify-self-end">
+      <img class="mx-auto" src={profesionalismoImg.src} alt="Profesionalismo Ancora" />
+    </div>
+  </div>
+  <Separator size="md" />
+  <div id="homevideo" class="web-banner">
+    <div class="max-w-[2000px] mx-auto">
+      <NuestraHistoriaVideo />
+    </div>
+  </div>
+  <Separator size="sm" />
+  <div class="mx-auto w-3/4">
+    <div class="h-[6px] w-[45px] rounded-full bg-anc-primary mx-auto my-5"></div>
+    <p class="italic font-light text-center" set:html={t.section3.text} />
+    <p class="text-xs mt-3 text-center">
+      {t.section3.author}
+    </p>
+  </div>
+  <Separator size="sm" />
+</AboutUsLayout>

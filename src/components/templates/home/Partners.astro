@@ -1,0 +1,85 @@
+---
+import en from '../../../data/locales/home/en/index';
+import es from '../../../data/locales/home/es/index';
+import Separator from '../../atoms/Separator.astro';
+import Title from '../../atoms/Title.astro';
+import copaproseLogo from '../../../assets/img/partners/copaprose.png';
+import miraLogo from '../../../assets/img/partners/mira-logo.png';
+import genesisLogo from '../../../assets/img/partners/genesis-logo.png';
+import unibaLogo from '../../../assets/img/partners/uniba-logo.png';
+import amasfacLogo from '../../../assets/img/partners/amasfac-logo.png';
+import mapImage from '../../../assets/img/backgrounds/map.png';
+
+import { getLangFromUrl } from '../../../i18n/utils';
+
+const lang = getLangFromUrl(Astro.url);
+const t = lang == 'en' ? en : es;
+---
+
+<div class="relative web-banner overflow-hidden">
+  <Separator size="md" />
+  <div class="flex justify-between absolute h-full w-full -z-10">
+    <img
+      class="absolute rotate-45 -z-10 -top-40 right-[calc(50%_-_650px)] translate-x-1/2"
+      src={mapImage.src}
+      alt=""
+    />
+  </div>
+  <div class="web-container">
+    <section>
+      <div class="text-center pb-12">
+        <Title
+          class={'text-3xl sm:text-4xl'}
+          barPosition="center"
+          headline={t.partners.headline}
+        >
+          {t.partners.title}
+        </Title>
+      </div>
+      <div
+        class="grid sm:grid-cols-3 items-center gap-4 sm:gap-8 [&>a]:justify-self-center"
+      >
+        <a href="https://copaprose.org/" target="_blank">
+          <img
+            class="duration-500 grayscale-[100%] hover:grayscale-0"
+            src={copaproseLogo.src}
+            alt="Copaprose logo"
+          />
+        </a>
+        <a href="https://www.miraassoc.com/" target="_blank">
+          <img
+            class="duration-500 grayscale-[100%] hover:grayscale-0"
+            src={miraLogo.src}
+            alt="MIRA logo"
+          />
+        </a>
+        <a href="https://genesisconsulting.es/" target="_blank">
+          <img
+            class="duration-500 grayscale-[100%] hover:grayscale-0"
+            src={genesisLogo.src}
+            alt="Genesis logo"
+          />
+        </a>
+      </div>
+      <div
+        class="grid sm:grid-cols-2 items-center gap-4 sm:gap-20 pt-4 sm:pt-12 [&>a]:justify-self-center"
+      >
+        <a href="https://www.uniba-partners.com/" target="_blank">
+          <img
+            class="justify-self-center sm:justify-self-end duration-500 grayscale-[100%] hover:grayscale-0 max-w-[250px]"
+            src={unibaLogo.src}
+            alt="UNIBA Partners logo"
+          />
+        </a>
+        <a href="https://www.amasfac.org/" target="_blank">
+          <img
+            class="justify-self-center sm:justify-self-start duration-500 grayscale-[100%] hover:grayscale-0"
+            src={amasfacLogo.src}
+            alt="AMASFAC logo"
+          />
+        </a>
+      </div>
+    </section>
+  </div>
+  <Separator />
+</div>

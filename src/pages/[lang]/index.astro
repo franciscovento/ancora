@@ -1,0 +1,28 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import Brochure from '../../components/templates/home/Brochure.astro';
+import Partners from '../../components/templates/home/Partners.astro';
+import ExperienceAndKnowledge from '../../components/templates/home/ExperienceAndKnowledge.astro';
+import Contact from '../../components/templates/home/Contact.astro';
+import Beneficts from '../../components/templates/home/Beneficts.astro';
+import Hero from '../../components/templates/home/Hero.astro';
+
+export function getStaticPaths() {
+  return [{ params: { lang: 'en' } }, { params: { lang: 'es' } }];
+}
+---
+
+<Layout>
+  <Hero />
+  <!-- VIDEO, EXPERIENCE AND KNOWLEDGE -->
+  <ExperienceAndKnowledge />
+  <!-- Beneficts -->
+  <Beneficts />
+  <!-- Report -->
+  <Brochure />
+  <!-- Partners -->
+  <Partners />
+  <!-- Formulario -->
+  <Contact />
+</Layout>
+<style></style>

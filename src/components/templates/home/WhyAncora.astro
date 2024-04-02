@@ -1,0 +1,27 @@
+---
+import routes from '../../../../routes';
+import en from '../../../data/locales/home/en/index';
+import es from '../../../data/locales/home/es/index';
+import { getLangFromUrl } from '../../../i18n/utils';
+import Button from '../../atoms/Button.astro';
+import Title from '../../atoms/Title.astro';
+const lang = getLangFromUrl(Astro.url);
+const t = lang == 'en' ? en : es;
+---
+
+<section class="flex flex-col gap-8">
+  <Title class={'text-4xl text-center'} barPosition="center">
+    {t.benefits.title}
+  </Title>
+  <div>
+    <p class="text-center pb-4" set:html={t.benefits.description} />
+  </div>
+  <div class="flex items-center justify-center gap-8 flex-wrap">
+    <a href={`/${lang}${routes.nosotros.cultura_ancora.nuestra_historia}`}>
+      <Button size="lg">{t.benefits.button1}</Button>
+    </a>
+    <a href={`/${lang}${routes.nosotros.cultura_ancora.cultura_y_valores}`}>
+      <Button size="lg" variant="secondary">{t.benefits.button2}</Button>
+    </a>
+  </div>
+</section>

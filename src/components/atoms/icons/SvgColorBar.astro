@@ -1,0 +1,32 @@
+---
+import type { HTMLAttributes } from "astro/types";
+interface Props extends HTMLAttributes<"svg"> {
+  color: "red" | "gray" | "blue";
+}
+const { color = "red", ...svgProps } = Astro.props;
+---
+
+<svg
+  width="156"
+  height="155"
+  viewBox="0 0 156 155"
+  fill="none"
+  xmlns="http://www.w3.org/2000/svg"
+  {...svgProps}
+>
+  <rect
+    x="-11"
+    y="129.63"
+    width="260.482"
+    height="56.8335"
+    rx="28.4167"
+    transform="rotate(-49.6893 -11 129.63)"
+    fill="#881929"
+    class:list={[
+      {
+        "fill-anc-primary": color === "red",
+        "fill-anc-secondary-light": color === "gray",
+        "fill-anc-secondary": color === "blue",
+      },
+    ]}></rect>
+</svg>

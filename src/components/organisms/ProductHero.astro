@@ -1,0 +1,37 @@
+---
+import SvgBarDecorator from '../atoms/icons/SvgBarDecorator.astro';
+interface Props {
+  image: string;
+  name: string;
+  description: string;
+  color: string;
+}
+
+const { color, description, image, name } = Astro.props;
+---
+
+<div
+  style={`background-image: url(${image})`}
+  class="web-banner min-h-[396px] bg-center bg-cover bg-no-repeat relative overflow-hidden"
+>
+  <div
+    class="max-w-2xl mx-auto text-center min-h-[396px] grid gap-7 place-content-center px-4"
+  >
+    <h1 class="text-white title-1">{name}</h1>
+    <p style="text-wrap: balance;" class="text-white text-lg sm:text-xl">
+      {description}
+    </p>
+  </div>
+  <SvgBarDecorator
+    className="absolute -translate-x-[calc(50%_+_600px)] left-1/2 top-0"
+    color={color}
+  />
+  <SvgBarDecorator
+    className="absolute -translate-x-[calc(50%_+_600px)] left-1/2 top-24"
+    color="#5E747F"
+  />
+  <SvgBarDecorator
+    className="absolute -translate-x-[calc(50%_+_600px)] left-1/2 top-48"
+    color="rgba(94, 116, 127, 0.40)"
+  />
+</div>

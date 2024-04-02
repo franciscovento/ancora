@@ -1,0 +1,45 @@
+---
+import usaFlag from '../../assets/svg/usa-flag.svg';
+import mexicoFlag from '../../assets/svg/mexico-flag.svg';
+import { getLangFromUrl } from '../../i18n/utils';
+
+const lang = getLangFromUrl(Astro.url);
+
+const getCurrenPath = () => {
+  return Astro.url.pathname.replace(`/${lang}`, '');
+};
+
+interface Props {
+  displayOne?: boolean;
+}
+
+const { displayOne = false } = Astro.props;
+---
+
+<ul class="flex text-sm uppercase gap-4">
+  <li
+    class:list={[
+      {
+        hidden: lang === 'es' && displayOne,
+      },
+    ]}
+  >
+    <a class="flex gap-2 items-center" href={`/es${getCurrenPath()}`}>
+      ESP
+      <img src={mexicoFlag.src} />
+    </a>
+  </li>
+  {!displayOne && <span>|</span>}
+  <li
+    class:list={[
+      {
+        hidden: lang === 'en' && displayOne,
+      },
+    ]}
+  >
+    <a class="flex gap-2 items-center" href={`/en${getCurrenPath()}`}>
+      ENG
+      <img width="20" src={usaFlag.src} />
+    </a>
+  </li>
+</ul>

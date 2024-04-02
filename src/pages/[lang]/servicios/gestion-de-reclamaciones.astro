@@ -1,0 +1,44 @@
+---
+import es from '../../../data/locales/services/es/gestionDeReclamaciones';
+import en from '../../../data/locales/services/en/gestionDeReclamaciones';
+import ProductLayout from '../../../layouts/ProductLayout.astro';
+import gestionReclamacionesImg from '../../../assets/img/backgrounds/gestion-reclamaciones.png';
+import Separator from '../../../components/atoms/Separator.astro';
+import Title from '../../../components/atoms/Title.astro';
+import ExperienceCard from '../../../components/molecules/ExperienceCard.astro';
+
+export function getStaticPaths() {
+  return [{ params: { lang: 'en' } }, { params: { lang: 'es' } }];
+}
+
+const { lang } = Astro.params;
+
+const t = lang === 'en' ? en : es;
+---
+
+<ProductLayout
+  name={t.title}
+  description={t.description}
+  image={gestionReclamacionesImg.src}
+  color="#9D852F"
+>
+  <Separator size="md" />
+  <Title class={'text-center'} barPosition="center">
+    {t.propuesta_valor.title}
+  </Title>
+  <p class="text-center py-8" set:html={t.propuesta_valor.description} />
+  <div
+    class="flex flex-col sm:flex-row items-center justify-between gap-4 py-12"
+  >
+    {
+      t.propuesta_valor.items.map((item) => (
+        <ExperienceCard
+          img={item.image}
+          title={item.name}
+          text={item.description}
+          paragraphSize="xs"
+        />
+      ))
+    }
+  </div>
+</ProductLayout>

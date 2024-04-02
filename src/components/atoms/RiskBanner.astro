@@ -1,0 +1,96 @@
+---
+import PrevencionDeRiesgoImg from '../../assets/img/products/seguro-de-credito/prevencion-de-riesgos.png';
+import CobranzaImg from '../../assets/img/products/seguro-de-credito/cobranza.png';
+import IndemnizacionImg from '../../assets/img/products/seguro-de-credito/indemnizacion.png';
+import { getLangFromUrl } from '../../i18n/utils';
+
+const lang = getLangFromUrl(Astro.url);
+
+const items = {
+  es: {
+    item1: {
+      title: 'Preveción de riesgos',
+      content: 'mediante el monitoreo y vigilancia de los deudores',
+    },
+    item2: {
+      title: 'Cobranza',
+      content: 'de las cuentas atrasadas por vía amistosa o extra-judicial.',
+    },
+    item3: {
+      title: 'Indemnización',
+      content: 'de las faltas de pago por mora prolongada o insolvencia.',
+    },
+  },
+  en: {
+    item1: {
+      title: 'Risk prevention',
+      content: 'through monitoring and surveillance of debtors',
+    },
+    item2: {
+      title: 'Collection',
+      content: 'of overdue accounts through amicable or extra-judicial means',
+    },
+    item3: {
+      title: 'Indemnification',
+      content: 'for defaults due to prolonged default or insolvency',
+    },
+  },
+};
+---
+
+<!-- TODO: ADD IMAGES TO RISK SQUARES -->
+<div class="grid md:grid-cols-4 lg:grid-cols-6">
+  <div
+    style={`background-image: url(${PrevencionDeRiesgoImg.src})`}
+    class="bg-[#09395c] p-4 flex flex-col justify-end min-h-[100px] sm:h-[166px] relative bg-center bg-contain md:bg-cover bg-no-repeat"
+  >
+  </div>
+  <div
+    class="bg-[#0072ba] p-4 flex flex-col justify-end min-h-[100px] sm:h-[166px] relative"
+  >
+    <p class="text-xs text-white">
+      <strong class="uppercase">{items[lang].item1.title}</strong>
+      {' '}{items[lang].item1.content}
+    </p>
+    <span
+      style="clip-path: polygon(0 50%, 100% 100%, 100% 0);"
+      class="absolute -top-5 left-1/2 -translate-x-1/2 md:translate-x-0 rotate-90 md:rotate-0 md:-left-7 md:top-1/2 md:-translate-y-1/2 inline-block bg-[#0072ba] w-8 h-8"
+    ></span>
+  </div>
+  <div
+    style={`background-image: url(${CobranzaImg.src})`}
+    class="bg-[#0b5d5b] p-4 flex flex-col justify-end min-h-[100px] md:h-[166px] relative bg-center bg-contain md:bg-cover bg-no-repeat"
+  >
+  </div>
+  <div
+    class="bg-[#1cbab5] p-4 flex flex-col justify-end min-h-[100px] md:h-[166px] relative"
+  >
+    <p class="text-xs text-white">
+      <strong class="uppercase">{items[lang].item2.title}</strong>
+      {' '}
+      {items[lang].item2.content}
+    </p>
+    <span
+      style="clip-path: polygon(0 50%, 100% 100%, 100% 0);"
+      class="absolute -top-5 left-1/2 -translate-x-1/2 md:translate-x-0 rotate-90 md:rotate-0 md:-left-7 md:top-1/2 md:-translate-y-1/2 inline-block bg-[#1cbab5] w-8 h-8"
+    ></span>
+  </div>
+  <div
+    style={`background-image: url(${IndemnizacionImg.src})`}
+    class="bg-[#2f394e] p-4 flex flex-col justify-end min-h-[100px] md:h-[166px] relative bg-center bg-contain md:bg-cover bg-no-repeat"
+  >
+  </div>
+  <div
+    class="bg-[#64789f] p-4 flex flex-col justify-end min-h-[100px] md:h-[166px] relative"
+  >
+    <p class="text-xs text-white">
+      <strong class="uppercase">{items[lang].item3.title}</strong>
+      {' '}
+      {items[lang].item3.content}
+    </p>
+    <span
+      style="clip-path: polygon(0 50%, 100% 100%, 100% 0);"
+      class="absolute -top-5 left-1/2 -translate-x-1/2 md:translate-x-0 rotate-90 md:rotate-0 md:-left-7 md:top-1/2 md:-translate-y-1/2 inline-block bg-[#64789f] w-8 h-8"
+    ></span>
+  </div>
+</div>

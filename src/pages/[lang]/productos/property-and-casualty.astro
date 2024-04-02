@@ -1,0 +1,39 @@
+---
+import es from '../../../data/locales/products/es/property-and-casualty';
+import en from '../../../data/locales/products/en/property-and-casualty';
+import propertyImg from '../../../assets/img/products/property-casualty.png';
+import ProductLayout from '../../../layouts/ProductLayout.astro';
+import Separator from '../../../components/atoms/Separator.astro';
+import Title from '../../../components/atoms/Title.astro';
+import ProductDescriptionCard from '../../../components/molecules/ProductDescriptionCard.astro';
+
+export function getStaticPaths() {
+  return [{ params: { lang: 'en' } }, { params: { lang: 'es' } }];
+}
+const { lang } = Astro.params;
+const t = lang === 'en' ? en : es;
+---
+
+<ProductLayout
+  title={t.title}
+  description={t.short_description}
+  name={t.title}
+  image={propertyImg.src}
+  color="#001D3D"
+  executivesContact={t.executivesContact}
+>
+  <Separator size="md" />
+  <Title class={'text-center'} barPosition="center">
+    {t.section_1.title}
+  </Title>
+  <p class="py-12" set:html={t.section_1.description} />
+  <div class="py-12 flex flex-col gap-12">
+    {
+      t.products.map((product) => (
+        <ProductDescriptionCard image={product.image} title={product.title}>
+          <div set:html={product.description} />
+        </ProductDescriptionCard>
+      ))
+    }
+  </div>
+</ProductLayout>

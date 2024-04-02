@@ -1,0 +1,86 @@
+---
+import es from '../../../data/locales/products/es/aviacion-y-espacio';
+import en from '../../../data/locales/products/en/aviacion-y-espacio';
+import ProductLayout from '../../../layouts/ProductLayout.astro';
+import Separator from '../../../components/atoms/Separator.astro';
+import Title from '../../../components/atoms/Title.astro';
+import DetailedImageCard from '../../../components/molecules/DetailedImageCard.astro';
+import SimpleCard from '../../../components/molecules/SimpleCard.astro';
+import satelite from '../../../assets/img/shared/satelite.png';
+import moon from '../../../assets/img/shared/moon.png';
+import aviacionImg from '../../../assets/img/products/aviacion-y-espacio.png';
+
+export function getStaticPaths() {
+  return [{ params: { lang: 'en' } }, { params: { lang: 'es' } }];
+}
+const { lang } = Astro.params;
+
+const t = lang === 'en' ? en : es;
+---
+
+<ProductLayout
+  title={t.title}
+  description={t.short_description}
+  name={t.title}
+  image={aviacionImg.src}
+  color="#BFE4F9"
+  executivesContact={t.executivesContact}
+>
+  <Separator size="md" />
+  <div
+    class="bg-white rounded-[30px] px-8 sm:px-12 py-12 text-sm flex flex-col gap-4"
+  >
+    <span>{t.services.description}</span>
+    <ul class="flex flex-col gap-2">
+      {
+        t.services.items.map((service) => (
+          <li class="list-none flex items-start sm:items-center gap-2">
+            <img class="mt-1 sm:mt-0" src="/svg/check.svg" /> {service}
+          </li>
+        ))
+      }
+    </ul>
+  </div>
+  <Separator size="md" />
+  <Title barPosition="center" class={'text-center'}>{t.products.title}</Title>
+  <div class="py-12 flex flex-col gap-4">
+    <p set:html={t.products.description} />
+  </div>
+  <div class="flex flex-col gap-20 py-12">
+    {
+      t.products.itemsImage.map((item) => (
+        <DetailedImageCard title={item.title} image={item.image}>
+          <p set:html={item.description} />
+        </DetailedImageCard>
+      ))
+    }
+  </div>
+  <div class="grid sm:grid-cols-2 gap-8">
+    {
+      t.products.itemsText.map((item) => (
+        <SimpleCard title={item.title}>
+          <p>{item.description}</p>
+        </SimpleCard>
+      ))
+    }
+  </div>
+  <div
+    class="sm:pb-20 pt-20 grid gap-8 sm:grid-cols-2 items-center justify-center place-content-center"
+  >
+    <div class="flex flex-col gap-4">
+      <Title>{t.section.title}</Title>
+      <div class="mt-3">
+        <p>
+          {t.section.description}
+        </p>
+        <ul class="list-disc list-inside text-sm text-anc-text mt-3">
+          {t.section.list.map((item) => <li>{item}</li>)}
+        </ul>
+      </div>
+    </div>
+    <div class="relative justify-self-end">
+      <img src={satelite.src} />
+      <img class="absolute left-0 bottom-0" src={moon.src} alt="" />
+    </div>
+  </div>
+</ProductLayout>

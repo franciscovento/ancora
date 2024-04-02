@@ -1,0 +1,49 @@
+---
+import es from '../../../data/locales/products/es/programas-multinacionales';
+import en from '../../../data/locales/products/en/programas-multinacionales';
+import multinacionalesImg from '../../../assets/img/products/programas-multinacionales.png';
+import ProductLayout from '../../../layouts/ProductLayout.astro';
+import Separator from '../../../components/atoms/Separator.astro';
+import wordlImg from '../../../assets/img/shared/world.png';
+import Title from '../../../components/atoms/Title.astro';
+import mapaImg from '../../../assets/img/shared/mapa.png';
+
+export function getStaticPaths() {
+  return [{ params: { lang: 'en' } }, { params: { lang: 'es' } }];
+}
+const { lang } = Astro.params;
+const t = lang === 'en' ? en : es;
+---
+
+<ProductLayout
+  title={t.title}
+  description={t.short_description}
+  name={t.title}
+  image={multinacionalesImg.src}
+  color="#B9E5EE"
+  executivesContact={t.executivesContact}
+>
+  <Separator size="md" />
+  <p set:html={t.description} />
+  <div class="py-12 grid md:grid-cols-2 gap-8 justify-items-center">
+    <div>
+      <Title>{t.section_1_.title}</Title>
+      <ul class="pt-12 list-disc ml-5">
+        {t.section_1_.list.map((item) => <li>{item}</li>)}
+      </ul>
+    </div>
+    <img src={wordlImg.src} alt="" />
+  </div>
+  <div class="py-12">
+    <Title barPosition="center" class={'text-center'}>
+      {t.section_2.title}
+    </Title>
+    <p
+      style="text-wrap: balance;"
+      class="pt-8 text-center"
+      set:html={t.section_2.short_description}
+    />
+    <img class="my-12 mx-auto object-contain" src={mapaImg.src} alt="" />
+    <p set:html={t.section_2.description} />
+  </div>
+</ProductLayout>

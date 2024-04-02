@@ -1,0 +1,73 @@
+---
+import es from '../../../data/locales/products/es/obra-civil-y-montaje';
+import en from '../../../data/locales/products/en/obra-civil-y-montaje';
+import ProductLayout from '../../../layouts/ProductLayout.astro';
+import Separator from '../../../components/atoms/Separator.astro';
+import Title from '../../../components/atoms/Title.astro';
+import obraCivilBgImg from '../../../assets/img/products/obra-civil.png';
+import ProductDescriptionCard from '../../../components/molecules/ProductDescriptionCard.astro';
+import IconText from '../../../components/atoms/IconText.astro';
+
+export function getStaticPaths() {
+  return [{ params: { lang: 'en' } }, { params: { lang: 'es' } }];
+}
+
+const { lang } = Astro.params;
+
+const t = lang === 'en' ? en : es;
+---
+
+<ProductLayout
+  title={t.title}
+  description={t.short_description}
+  name={t.title}
+  image={obraCivilBgImg.src}
+  color="#FED602"
+  executivesContact={t.executivesContact}
+>
+  <Separator size="md" />
+  <Title class={'text-center'} barPosition="center">
+    {t.purpose_value.title}
+  </Title>
+  <p class="py-8">
+    {t.purpose_value.description}
+  </p>
+  <div class="flex flex-col gap-8 py-12">
+    {
+      t.services.map((service) => (
+        <ProductDescriptionCard
+          variant="secondary"
+          title={service.title}
+          image={service.image}
+        >
+          <div set:html={service.description} />
+        </ProductDescriptionCard>
+      ))
+    }
+  </div>
+  <div class="pt-8">
+    <Title class={'text-center'} barPosition="center">{t.products.title}</Title>
+    <div class="my-12 p-12 border border-anc-primary rounded-[30px]">
+      <div class="grid gap-8 sm:grid-cols-3 whitespace-pre-line items-baseline">
+        {
+          t.products.top.map((item) => (
+            <IconText text={item.name} icon={item.icon} />
+          ))
+        }
+      </div>
+      <div class="border border-anc-secondary-light mt-12"></div>
+      <p
+        class="text-anc-secondary-light pt-4 pb-12 uppercase text-center text-xl font-semibold"
+      >
+        {t.products.middle}
+      </p>
+      <div class="grid gap-8 sm:grid-cols-3 whitespace-pre-line items-baseline">
+        {
+          t.products.bottom.map((item) => (
+            <IconText text={item.name} icon={item.icon} />
+          ))
+        }
+      </div>
+    </div>
+  </div>
+</ProductLayout>
